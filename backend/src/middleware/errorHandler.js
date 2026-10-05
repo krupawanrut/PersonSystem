@@ -19,12 +19,16 @@ function notFoundHandler(req, res) {
   return fail(res, { status: 404, message: "ไม่พบเส้นทางที่ร้องขอ" });
 }
 
-// ตัวจัดการ error กลางของแอป (500)
+// ตัวจัดการ error กลางของแอป
 function errorHandler(err, req, res, next) { // eslint-disable-line no-unused-vars
-  console.error(err);
   if (err.code === "LIMIT_FILE_SIZE") {
     return fail(res, { status: 400, message: "ขนาดไฟล์เกินกำหนด" });
   }
+  // error ที่ถูกระบุ status มาแล้วอย่างตั้งใจ (เช่น ชนิดไฟล์ไม่ได้รับอนุญาตจาก middleware/upload.js)
+  if (err.status && err.status < 500) {
+    return fail(res, { status: err.status, message: err.message });
+  }
+  console.error(err);
   return fail(res, { status: 500, message: "ข้อผิดพลาดที่ไม่คาดคิดฝั่งเซิร์ฟเวอร์" });
 }
 

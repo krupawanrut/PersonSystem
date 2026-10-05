@@ -15,7 +15,36 @@ PersonSystem/
 
 เอกสารออกแบบระบบทั้งหมด (ส่วนที่ 1–4 ตามเกณฑ์การแข่งขัน) อยู่ที่ `docs/flowcharts.html` และ `docs/ui-templates/`
 
-## เริ่มต้นใช้งาน
+## เริ่มต้นใช้งานด้วย Docker Desktop (แนะนำ)
+
+ต้องเปิด Docker Desktop ไว้ก่อน แล้วรันคำสั่งเดียวจากโฟลเดอร์นี้:
+
+```bash
+docker compose up -d --build
+```
+
+คำสั่งนี้จะสร้างและรันทั้ง 4 services พร้อมกัน:
+
+| Service | URL | หมายเหตุ |
+|---|---|---|
+| Frontend (Nuxt) | http://localhost:3000 | หน้าเว็บหลัก |
+| Backend API | http://localhost:4000/api | ทดสอบได้ที่ `/api/health` |
+| phpMyAdmin | http://localhost:8080 | user `root` / password `rootpass` |
+| MariaDB | localhost:3306 | user `root` / password `rootpass` / database `person_system` |
+
+ฐานข้อมูลจะถูกสร้างและใส่ข้อมูลตัวอย่าง (`schema.sql` + `seed.sql`) ให้อัตโนมัติ **เฉพาะตอนสร้างคอนเทนเนอร์ครั้งแรกเท่านั้น** (ข้อมูลเก็บอยู่ใน Docker volume `mariadb_data`)
+
+คำสั่งที่ใช้บ่อย:
+
+```bash
+docker compose ps                  # ดูสถานะทุก service
+docker compose logs -f backend     # ดู log แบบ real-time
+docker compose down                # หยุดทุก service (ข้อมูลยังอยู่)
+docker compose down -v             # หยุดและลบข้อมูลทั้งหมด (รีเซ็ตฐานข้อมูล)
+docker compose up -d --build       # build ใหม่หลังแก้โค้ด
+```
+
+## เริ่มต้นใช้งานแบบไม่ใช้ Docker (รันตรงบนเครื่อง)
 
 ### 1. ฐานข้อมูล (MariaDB)
 

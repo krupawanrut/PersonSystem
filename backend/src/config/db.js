@@ -11,6 +11,7 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
   dateStrings: true,
+  charset: "utf8mb4", // ป้องกันข้อความภาษาไทยเพี้ยนตอนเขียนข้อมูลใหม่ผ่านแอป
 });
 
 module.exports = pool;

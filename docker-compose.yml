@@ -1,0 +1,76 @@
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: person-system-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: person_system
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      # สคริปต์ในโฟลเดอร์นี้จะถูกรันอัตโนมัติ (เรียงตามชื่อไฟล์) เฉพาะตอนสร้างฐานข้อมูลครั้งแรกเท่านั้น
+      - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./backend/database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: person-system-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: root
+      PMA_PASSWORD: rootpass
+    ports:
+      - "8080:80"
+    depends_on:
+      - mariadb
+
+  backend:
+    build: ./backend
+    container_name: person-system-backend
+    restart: unless-stopped
+    environment:
+      PORT: 4000
+      NODE_ENV: production
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: rootpass
+      DB_NAME: person_system
+      JWT_SECRET: change-this-to-a-long-random-secret
+      JWT_EXPIRES_IN: 2h
+      CORS_ORIGIN: http://localhost:3000
+      UPLOAD_DIR: uploads
+      MAX_UPLOAD_MB: 5
+    ports:
+      - "4000:4000"
+    volumes:
+      - backend_uploads:/app/uploads
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: person-system-frontend
+    restart: unless-stopped
+    environment:
+      # นี่คือ URL ที่ "เบราว์เซอร์ของผู้ใช้" เรียก ไม่ใช่ URL ภายใน network ของ Docker
+      # จึงต้องเป็น localhost:4000 (พอร์ตที่ map ออกมา) ไม่ใช่ http://backend:4000
+      NUXT_PUBLIC_API_BASE: http://localhost:4000/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mariadb_data:
+  backend_uploads:

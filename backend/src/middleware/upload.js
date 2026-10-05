@@ -23,7 +23,9 @@ function makeStorage(subdir) {
 function fileFilter(req, file, cb) {
   const ext = path.extname(file.originalname).toLowerCase();
   if (!ALLOWED.has(ext)) {
-    return cb(new Error("ชนิดไฟล์ไม่ได้รับอนุญาต (รองรับเฉพาะ PDF, JPG, PNG)"));
+    const err = new Error("ชนิดไฟล์ไม่ได้รับอนุญาต (รองรับเฉพาะ PDF, JPG, PNG)");
+    err.status = 400;
+    return cb(err);
   }
   cb(null, true);
 }

@@ -1,0 +1,7 @@
+node_modules
+.env
+npm-debug.log
+uploads/evidence/*
+uploads/signatures/*
+!uploads/evidence/.gitkeep
+!uploads/signatures/.gitkeep

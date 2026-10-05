@@ -10,13 +10,13 @@ USE person_system;
 -- users
 -- ------------------------------------------------------------
 INSERT INTO users (username, password, full_name, email, role, department, is_first_login) VALUES
-('hr.somying',   '$2b$10$Tk8oAPy34n/nDndTXbQBdegujVAk7KwKqbr0nNPojLxXvQuCHyc26', 'สมหญิง วิไลพร', 'somying@college.ac.th', 'hr', 'ฝ่ายบุคลากร', 0),
-('eval.kan',     '$2b$10$Tk8oAPy34n/nDndTXbQBdegujVAk7KwKqbr0nNPojLxXvQuCHyc26', 'กานต์ ศรีวิเศษ', 'kan@college.ac.th', 'evaluatee', 'แผนกเทคโนโลยีสารสนเทศ', 0),
-('eval.piyada',  '$2b$10$Tk8oAPy34n/nDndTXbQBdegujVAk7KwKqbr0nNPojLxXvQuCHyc26', 'ปิยะดา เพชรรัตน์', 'piyada@college.ac.th', 'evaluatee', 'แผนกบัญชี', 0),
-('eval.thanakorn','$2b$10$Tk8oAPy34n/nDndTXbQBdegujVAk7KwKqbr0nNPojLxXvQuCHyc26', 'ธนกร ทองสุข', 'thanakorn@college.ac.th', 'evaluatee', 'แผนกช่างยนต์', 1),
-('eval.maneerat', '$2b$10$Tk8oAPy34n/nDndTXbQBdegujVAk7KwKqbr0nNPojLxXvQuCHyc26', 'มณีรัตน์ แก้วใส', 'maneerat@college.ac.th', 'evaluatee', 'แผนกคอมพิวเตอร์ธุรกิจ', 0),
-('judge.somchai', '$2b$10$Tk8oAPy34n/nDndTXbQBdegujVAk7KwKqbr0nNPojLxXvQuCHyc26', 'สมชาย ใจดี', 'somchai@college.ac.th', 'evaluator', 'ฝ่ายวิชาการ', 0),
-('judge.suneeya', '$2b$10$Tk8oAPy34n/nDndTXbQBdegujVAk7KwKqbr0nNPojLxXvQuCHyc26', 'สุนีย์ แสงทอง', 'suneeya@college.ac.th', 'evaluator', 'ฝ่ายวิชาการ', 0);
+('hr.somying',   '$2b$10$Il1cp6ZTX/kA85yesl8fauMaPQQoyjrzTK8EY2E9kYQGsLVTfIMdG', 'สมหญิง วิไลพร', 'somying@college.ac.th', 'hr', 'ฝ่ายบุคลากร', 0),
+('eval.kan',     '$2b$10$Il1cp6ZTX/kA85yesl8fauMaPQQoyjrzTK8EY2E9kYQGsLVTfIMdG', 'กานต์ ศรีวิเศษ', 'kan@college.ac.th', 'evaluatee', 'แผนกเทคโนโลยีสารสนเทศ', 0),
+('eval.piyada',  '$2b$10$Il1cp6ZTX/kA85yesl8fauMaPQQoyjrzTK8EY2E9kYQGsLVTfIMdG', 'ปิยะดา เพชรรัตน์', 'piyada@college.ac.th', 'evaluatee', 'แผนกบัญชี', 0),
+('eval.thanakorn','$2b$10$Il1cp6ZTX/kA85yesl8fauMaPQQoyjrzTK8EY2E9kYQGsLVTfIMdG', 'ธนกร ทองสุข', 'thanakorn@college.ac.th', 'evaluatee', 'แผนกช่างยนต์', 1),
+('eval.maneerat', '$2b$10$Il1cp6ZTX/kA85yesl8fauMaPQQoyjrzTK8EY2E9kYQGsLVTfIMdG', 'มณีรัตน์ แก้วใส', 'maneerat@college.ac.th', 'evaluatee', 'แผนกคอมพิวเตอร์ธุรกิจ', 0),
+('judge.somchai', '$2b$10$Il1cp6ZTX/kA85yesl8fauMaPQQoyjrzTK8EY2E9kYQGsLVTfIMdG', 'สมชาย ใจดี', 'somchai@college.ac.th', 'evaluator', 'ฝ่ายวิชาการ', 0),
+('judge.suneeya', '$2b$10$Il1cp6ZTX/kA85yesl8fauMaPQQoyjrzTK8EY2E9kYQGsLVTfIMdG', 'สุนีย์ แสงทอง', 'suneeya@college.ac.th', 'evaluator', 'ฝ่ายวิชาการ', 0);
 
 -- ------------------------------------------------------------
 -- evaluation_topics  (created_by = hr.somying -> id 1)
