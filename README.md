@@ -1,0 +1,74 @@
+# ระบบประเมินบุคลากร (Personnel Evaluation System)
+
+ระบบประเมินผลการปฏิบัติงานบุคลากร พัฒนาเพื่อการแข่งขันทักษะ สาขาวิชาเทคโนโลยีสารสนเทศ/คอมพิวเตอร์โปรแกรมเมอร์ ระดับ ปวช.
+
+**สแตก:** Vue/Nuxt (Frontend) · Node.js ≥24 + Express (Backend) · MariaDB (Database)
+
+## โครงสร้างโปรเจกต์
+
+```
+PersonSystem/
+├── backend/          Express API + MariaDB
+├── frontend/         Nuxt 3 application
+└── docs/             ผังงาน, Use Case, Class Diagram, Template Layout, RESTful API design
+```
+
+เอกสารออกแบบระบบทั้งหมด (ส่วนที่ 1–4 ตามเกณฑ์การแข่งขัน) อยู่ที่ `docs/flowcharts.html` และ `docs/ui-templates/`
+
+## เริ่มต้นใช้งาน
+
+### 1. ฐานข้อมูล (MariaDB)
+
+ต้องมี MariaDB รันอยู่แล้ว (เช่นผ่าน Docker หรือติดตั้งในเครื่อง)
+
+```bash
+cd backend
+cp .env.example .env     # แก้ค่า DB_* ให้ตรงกับเครื่องของท่าน
+npm install
+npm run db:schema        # สร้างฐานข้อมูลและตาราง
+npm run db:seed          # ใส่ข้อมูลตัวอย่าง
+```
+
+### 2. Backend API
+
+```bash
+cd backend
+npm run dev               # http://localhost:4000
+```
+
+ตรวจสอบว่าทำงานอยู่: `GET http://localhost:4000/api/health`
+
+### 3. Frontend (Nuxt)
+
+```bash
+cd frontend
+cp .env.example .env      # ค่าเริ่มต้นชี้ไปที่ backend ที่ localhost:4000 อยู่แล้ว
+npm install
+npm run dev                # http://localhost:3000
+```
+
+## บัญชีผู้ใช้งานตัวอย่าง (จาก database/seed.sql)
+
+รหัสผ่านทุกบัญชี: **`Passw0rd!`**
+
+| บทบาท | Username | หมายเหตุ |
+|---|---|---|
+| ฝ่ายบุคลากร | `hr.somying` | |
+| ผู้รับการประเมิน | `eval.kan` | มีข้อมูลตัวอย่างครบ (รายละเอียด, คะแนนตนเอง) |
+| ผู้รับการประเมิน | `eval.thanakorn` | บัญชีใหม่ — ทดสอบการบังคับเปลี่ยนรหัสผ่านครั้งแรก (`is_first_login = 1`) |
+| กรรมการผู้ประเมิน | `judge.somchai` | มีงานประเมินค้างอยู่ (สถานะร่าง) ให้ทดสอบหน้าให้คะแนน |
+
+## ความสัมพันธ์กับเอกสารออกแบบ
+
+| ส่วนของระบบ | อ้างอิงเอกสาร |
+|---|---|
+| Database schema | `backend/database/schema.sql` ↔ Class Diagram ข้อ 2.4 (`docs/flowcharts.html`) |
+| REST API | `backend/src/routes/` ↔ RESTful API design ข้อ 4.1–4.5 (`docs/flowcharts.html`) |
+| หน้าจอ UI | `frontend/pages/` ↔ Template Layout ข้อ 3.1–3.5 (`docs/ui-templates/`) |
+| Business logic | `backend/src/controllers/` ↔ ความต้องการผู้ใช้ ข้อ 5.1–5.3 |
+
+## หมายเหตุด้านความปลอดภัย
+
+- เปลี่ยน `JWT_SECRET` ใน `backend/.env` ก่อนใช้งานจริงเสมอ
+- รหัสผ่านทั้งหมด hash ด้วย bcrypt ก่อนบันทึกลงฐานข้อมูล
+- ไฟล์หลักฐาน/ลายเซ็นที่อัปโหลดจำกัดชนิดไฟล์ (PDF/JPG/PNG) และขนาดสูงสุด 5 MB

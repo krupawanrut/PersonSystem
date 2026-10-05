@@ -1,0 +1,31 @@
+{
+  "name": "person-system-backend",
+  "version": "1.0.0",
+  "description": "Backend API สำหรับระบบประเมินบุคลากร (Personnel Evaluation System)",
+  "type": "commonjs",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db:schema": "node scripts/run-sql.js database/schema.sql",
+    "db:seed": "node scripts/run-sql.js database/seed.sql"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-fileupload": "^1.5.1",
+    "express-validator": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.11.0",
+    "pdfkit": "^0.15.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
