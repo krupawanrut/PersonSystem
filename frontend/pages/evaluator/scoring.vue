@@ -1,6 +1,5 @@
 <script setup>
-const navItems = [{ label: "ประเมินผู้รับการประเมิน", to: "/evaluator/scoring", icon: "judge" }];
-
+const { navItems } = useNav();
 const api = useApi();
 
 const assignments = ref([]);
@@ -195,8 +194,9 @@ onMounted(loadAssignments);
                 <div class="text-ink">{{ d.description }}</div>
                 <div v-if="d.evidencePath" class="text-ink-soft mt-0.5">
                   หลักฐาน:
-                  <a v-if="d.evidenceType === 'url'" :href="d.evidencePath" target="_blank" class="text-[#1f4e8c] underline">{{ d.evidencePath }}</a>
-                  <span v-else>{{ d.evidencePath.split("/").pop() }}</span>
+                  <a :href="useFileUrl(d.evidencePath)" target="_blank" rel="noopener" class="text-[#1f4e8c] underline">
+                    {{ d.evidenceType === "url" ? d.evidencePath : d.evidencePath.split("/").pop() }}
+                  </a>
                 </div>
               </div>
               <div v-if="!detailsCache[ind.indicatorId]?.length" class="text-xs text-ink-soft">ผู้รับการประเมินยังไม่ได้กรอกรายละเอียด</div>

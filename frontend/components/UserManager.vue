@@ -1,4 +1,8 @@
 <script setup>
+import { useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/yup";
+import * as yup from "yup";
+
 const props = defineProps({
   role: { type: String, required: true }, // 'evaluatee' | 'evaluator'
   title: { type: String, required: true },
@@ -11,8 +15,27 @@ const errorMessage = ref("");
 const infoMessage = ref("");
 const showForm = ref(false);
 
-const EMPTY = () => ({ username: "", password: "", fullName: "", email: "", department: "", role: props.role });
-const form = reactive(EMPTY());
+// ตรวจสอบข้อมูลฝั่ง client ก่อนส่ง (ข้อ 8.2) — ตรวจแบบ real-time ขณะกรอก ก่อนที่จะยิงไป backend อีกชั้น
+const schema = toTypedSchema(
+  yup.object({
+    fullName: yup.string().trim().required("กรุณากรอกชื่อ-นามสกุล"),
+    username: yup.string().trim().required("กรุณากรอกชื่อผู้ใช้งาน").min(3, "ชื่อผู้ใช้งานต้องมีอย่างน้อย 3 ตัวอักษร"),
+    password: yup.string().required("กรุณากรอกรหัสผ่านเริ่มต้น").min(8, "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร"),
+    email: yup.string().trim().email("รูปแบบอีเมลไม่ถูกต้อง เช่น name@example.com").nullable().transform((v) => v || null),
+    department: yup.string().trim().nullable(),
+  })
+);
+
+const { handleSubmit, errors, defineField, resetForm } = useForm({
+  validationSchema: schema,
+  initialValues: { fullName: "", username: "", password: "", email: "", department: "" },
+});
+
+const [fullName, fullNameAttrs] = defineField("fullName");
+const [username, usernameAttrs] = defineField("username");
+const [password, passwordAttrs] = defineField("password");
+const [email, emailAttrs] = defineField("email");
+const [department, departmentAttrs] = defineField("department");
 
 async function load() {
   loading.value = true;
@@ -26,17 +49,17 @@ async function load() {
   }
 }
 
-async function submit() {
+const submit = handleSubmit(async (values) => {
   errorMessage.value = "";
   try {
-    await api.post("/users", form);
-    Object.assign(form, EMPTY());
+    await api.post("/users", { ...values, role: props.role });
+    resetForm();
     showForm.value = false;
     await load();
   } catch (err) {
     errorMessage.value = err.response?.data?.message || "เพิ่มผู้ใช้งานไม่สำเร็จ";
   }
-}
+});
 
 async function removeUser(id) {
   if (!confirm("ยืนยันการลบผู้ใช้งานนี้?")) return;
@@ -67,13 +90,27 @@ onMounted(load);
     <div v-if="errorMessage" class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3 mb-4">{{ errorMessage }}</div>
     <div v-if="infoMessage" class="text-sm text-[#1f4e8c] bg-[#e7eff9] border border-[#cddcf0] rounded-lg px-4 py-3 mb-4">{{ infoMessage }}</div>
 
-    <form v-if="showForm" class="bg-white border border-gray-200 rounded-2xl p-5 grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-5" @submit.prevent="submit">
-      <input v-model="form.fullName" required placeholder="ชื่อ-นามสกุล" class="input input-bordered w-full" />
-      <input v-model="form.username" required placeholder="ชื่อผู้ใช้งาน (username)" class="input input-bordered w-full" />
-      <input v-model="form.password" required type="password" placeholder="รหัสผ่านเริ่มต้น" class="input input-bordered w-full" />
-      <input v-model="form.email" type="email" placeholder="อีเมล" class="input input-bordered w-full" />
-      <input v-model="form.department" placeholder="แผนก/หน่วยงาน" class="input input-bordered w-full sm:col-span-2" />
-      <div class="sm:col-span-2 flex justify-end">
+    <form v-if="showForm" class="bg-white border border-gray-200 rounded-2xl p-5 grid grid-cols-1 sm:grid-cols-2 gap-x-3.5 gap-y-1 mb-5" @submit.prevent="submit" novalidate>
+      <div>
+        <input v-model="fullName" v-bind="fullNameAttrs" placeholder="ชื่อ-นามสกุล" class="input input-bordered w-full" :class="{ 'input-error': errors.fullName }" />
+        <p v-if="errors.fullName" class="text-xs text-red-600 mt-1">{{ errors.fullName }}</p>
+      </div>
+      <div>
+        <input v-model="username" v-bind="usernameAttrs" placeholder="ชื่อผู้ใช้งาน (username)" class="input input-bordered w-full" :class="{ 'input-error': errors.username }" />
+        <p v-if="errors.username" class="text-xs text-red-600 mt-1">{{ errors.username }}</p>
+      </div>
+      <div>
+        <input v-model="password" v-bind="passwordAttrs" type="password" placeholder="รหัสผ่านเริ่มต้น" class="input input-bordered w-full" :class="{ 'input-error': errors.password }" />
+        <p v-if="errors.password" class="text-xs text-red-600 mt-1">{{ errors.password }}</p>
+      </div>
+      <div>
+        <input v-model="email" v-bind="emailAttrs" type="email" placeholder="อีเมล" class="input input-bordered w-full" :class="{ 'input-error': errors.email }" />
+        <p v-if="errors.email" class="text-xs text-red-600 mt-1">{{ errors.email }}</p>
+      </div>
+      <div class="sm:col-span-2">
+        <input v-model="department" v-bind="departmentAttrs" placeholder="แผนก/หน่วยงาน" class="input input-bordered w-full" />
+      </div>
+      <div class="sm:col-span-2 flex justify-end mt-2">
         <button type="submit" class="btn text-white border-none" style="background:#1f4e8c">บันทึก</button>
       </div>
     </form>

@@ -1,9 +1,5 @@
 <script setup>
-const navItems = [
-  { label: "การประเมินตนเอง", to: "/evaluatee/self-evaluation", icon: "doc" },
-  { label: "รายงานของฉัน", to: "/evaluatee/report", icon: "award" },
-];
-
+const { navItems } = useNav();
 const api = useApi();
 const authStore = useAuthStore();
 const report = ref(null);

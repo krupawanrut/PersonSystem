@@ -1,9 +1,5 @@
 <script setup>
-const navItems = [
-  { label: "การประเมินตนเอง", to: "/evaluatee/self-evaluation", icon: "doc" },
-  { label: "รายงานของฉัน", to: "/evaluatee/report", icon: "award" },
-];
-
+const { navItems } = useNav();
 const api = useApi();
 const authStore = useAuthStore();
 
@@ -171,9 +167,16 @@ onMounted(loadAll);
                 <div class="flex-1 min-w-0">
                   <div class="text-sm">{{ d.description }}</div>
                   <div class="mt-2 flex items-center gap-2 flex-wrap">
-                    <span v-if="d.evidencePath" class="text-xs bg-gray-100 text-ink-soft px-2 py-1 rounded-lg">
+                    <a
+                      v-if="d.evidencePath"
+                      :href="useFileUrl(d.evidencePath)"
+                      target="_blank"
+                      rel="noopener"
+                      class="inline-flex items-center gap-1.5 text-xs bg-gray-100 hover:bg-gray-200 text-[#1f4e8c] px-2 py-1 rounded-lg"
+                    >
+                      <Icon name="download" :size="12" />
                       {{ d.evidenceType === "url" ? d.evidencePath : d.evidencePath.split("/").pop() }}
-                    </span>
+                    </a>
                     <label class="text-xs font-semibold text-[#1f4e8c] cursor-pointer">
                       แนบไฟล์
                       <input type="file" class="hidden" accept=".pdf,.jpg,.jpeg,.png" @change="attachFile(d.id, $event)" />

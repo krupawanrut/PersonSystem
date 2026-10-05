@@ -29,6 +29,7 @@ docker compose up -d --build
 |---|---|---|
 | Frontend (Nuxt) | http://localhost:3000 | หน้าเว็บหลัก |
 | Backend API | http://localhost:4000/api | ทดสอบได้ที่ `/api/health` |
+| **API Docs (Swagger)** | http://localhost:4000/api/docs | เอกสาร API แบบ interactive ครบทุก endpoint พร้อมทดลองยิง request ได้จริง |
 | phpMyAdmin | http://localhost:8080 | user `root` / password `rootpass` |
 | MariaDB | localhost:3306 | user `root` / password `rootpass` / database `person_system` |
 

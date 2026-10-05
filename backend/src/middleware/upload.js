@@ -41,4 +41,20 @@ const uploadSignature = multer({
   limits: { fileSize: MAX_MB * 1024 * 1024 },
 });
 
-module.exports = { uploadEvidence, uploadSignature };
+function sqlFileFilter(req, file, cb) {
+  if (path.extname(file.originalname).toLowerCase() !== ".sql") {
+    const err = new Error("รองรับเฉพาะไฟล์ .sql เท่านั้น");
+    err.status = 400;
+    return cb(err);
+  }
+  cb(null, true);
+}
+
+// ไฟล์สำรองข้อมูลอาจมีขนาดใหญ่กว่าหลักฐานทั่วไปมาก จึงกำหนด limit แยกต่างหาก (200MB)
+const uploadBackup = multer({
+  storage: makeStorage("backups"),
+  fileFilter: sqlFileFilter,
+  limits: { fileSize: 200 * 1024 * 1024 },
+});
+
+module.exports = { uploadEvidence, uploadSignature, uploadBackup };

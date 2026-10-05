@@ -1,24 +1,7 @@
 <script setup>
-const NAV_BY_ROLE = {
-  hr: [
-    { label: "แดชบอร์ด", to: "/dashboard", icon: "grid" },
-    { label: "หัวข้อการประเมิน", to: "/hr/topics", icon: "doc" },
-    { label: "ผู้รับการประเมิน", to: "/hr/evaluatees", icon: "people" },
-    { label: "กรรมการผู้ประเมิน", to: "/hr/evaluators", icon: "judge" },
-    { label: "รายงาน", to: "/hr/reports", icon: "bars" },
-  ],
-  evaluatee: [
-    { label: "การประเมินตนเอง", to: "/evaluatee/self-evaluation", icon: "doc" },
-    { label: "รายงานของฉัน", to: "/evaluatee/report", icon: "award" },
-  ],
-  evaluator: [
-    { label: "ประเมินผู้รับการประเมิน", to: "/evaluator/scoring", icon: "judge" },
-  ],
-};
-
+const { navItems } = useNav();
 const api = useApi();
 const authStore = useAuthStore();
-const navItems = computed(() => NAV_BY_ROLE[authStore.user?.role] || []);
 
 const fullName = ref(authStore.user?.fullName || "");
 const email = ref("");
