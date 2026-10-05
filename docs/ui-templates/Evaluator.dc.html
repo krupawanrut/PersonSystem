@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>หน้าจอกรรมการผู้ประเมิน</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --ink:#1b2430;
+    --ink-soft:#6b7280;
+    --ink-faint:#9aa1ab;
+    --bg:#f5f3ee;
+    --surface:#ffffff;
+    --border:#e7e2d6;
+    --panel-a:#13203b;
+    --panel-b:#1f4e8c;
+    --accent-soft:#e7eff9;
+    --accent-warm:#b5792a;
+    --warm-soft:#f7ecd9;
+    --status-good:#2f6bb0;
+    --status-good-bg:#e7eff9;
+    --status-warn:#c17f1f;
+    --status-warn-bg:#faeedb;
+    --status-neutral:#5f6b7a;
+    --status-neutral-bg:#eceef0;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Sarabun','Noto Sans Thai',sans-serif;color:var(--ink);}
+  a{color:var(--panel-b);text-decoration:none;}
+  .navitem{display:flex;align-items:center;gap:11px;padding:10px 14px;border-radius:9px;font-size:13.5px;font-weight:500;color:rgba(255,255,255,0.72);}
+  .navitem:hover{background:rgba(255,255,255,0.08);color:#ffffff;}
+  .navitem.active{background:rgba(255,255,255,0.14);color:#ffffff;font-weight:600;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;}
+  .pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:600;flex:none;}
+  .evaluatee-row{display:flex;align-items:center;gap:10px;padding:12px 13px;border-radius:10px;cursor:pointer;border:1.5px solid transparent;}
+  .evaluatee-row:hover{background:var(--bg);}
+  .evaluatee-row.selected{border-color:var(--panel-b);background:var(--accent-soft);}
+  .field-label{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:7px;display:block;}
+  .input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:13.5px;font-family:inherit;background:var(--surface);color:var(--ink);}
+  .score-row{display:flex;align-items:center;gap:14px;padding:13px 4px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+  .score-row:last-child{border-bottom:none;}
+  .seg{display:flex;gap:5px;}
+  .seg button{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink-soft);cursor:pointer;}
+  .seg button.on{border-color:var(--panel-b);background:var(--panel-b);color:#fff;}
+  .seg button.off{opacity:.4;cursor:not-allowed;}
+  .avatar{flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-wrap:wrap;background:var(--bg);">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <div style="flex:1 1 220px;min-width:210px;background:linear-gradient(185deg,var(--panel-a) 0%,var(--panel-b) 140%);color:#fff;padding:24px 16px;display:flex;flex-direction:column;gap:28px;">
+
+    <div style="display:flex;align-items:center;gap:10px;padding:0 6px;">
+      <div style="flex:none;width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.14);display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 3 5v5c0 4.2 3 6.8 7 8 4-1.2 7-3.8 7-8V5l-7-3Z"/><path d="M7 10l2 2 4-4"/></svg>
+      </div>
+      <div style="font-size:14px;font-weight:700;line-height:1.25;">ระบบประเมิน<br>บุคลากร</div>
+    </div>
+
+    <nav style="display:flex;flex-direction:column;gap:3px;">
+      <div class="navitem">
+        <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="6.5" height="6.5" rx="1.3"/><rect x="11" y="2.5" width="6.5" height="6.5" rx="1.3"/><rect x="2.5" y="11" width="6.5" height="6.5" rx="1.3"/><rect x="11" y="11" width="6.5" height="6.5" rx="1.3"/></svg>
+        ภาพรวมของฉัน
+      </div>
+      <div class="navitem active">
+        <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6.5" r="3.2"/><path d="M3.5 17c1-3.2 4-4.8 6.5-4.8s5.5 1.6 6.5 4.8"/><path d="M14.3 5.3l1 1 2-2"/></svg>
+        ประเมินผู้รับการประเมิน
+      </div>
+      <div class="navitem">
+        <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h5.5L15 6v11.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z"/><path d="M11 2.5V6h4"/><path d="M7 10h6M7 13h6"/></svg>
+        ผลที่ส่งแล้ว
+      </div>
+      <div class="navitem">
+        <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="2.6"/><path d="M10 2.5v2M10 15.5v2M17.5 10h-2M4.5 10h-2M15.3 4.7l-1.4 1.4M6.1 13.9l-1.4 1.4M15.3 15.3l-1.4-1.4M6.1 6.1 4.7 4.7"/></svg>
+        ตั้งค่าบัญชี
+      </div>
+    </nav>
+
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:12px;">
+      <div style="height:1px;background:rgba(255,255,255,0.12);"></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:0 4px;">
+        <div class="avatar" style="width:34px;height:34px;background:rgba(255,255,255,0.16);font-size:12.5px;">สช</div>
+        <div style="min-width:0;">
+          <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">อ.สมชาย ใจดี</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,0.6);">กรรมการผู้ประเมิน · ประธาน</div>
+        </div>
+      </div>
+      <div class="navitem" style="padding:8px 10px;">
+        <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 17H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h3.5"/><path d="M13 14l4-4-4-4M17 10H7.5"/></svg>
+        ออกจากระบบ
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <div style="flex:999 1 560px;min-width:0;padding:28px 32px 48px;display:flex;flex-direction:column;gap:20px;">
+
+    <div>
+      <h1 style="margin:0 0 4px;font-size:23px;font-weight:700;">ประเมินผู้รับการประเมิน</h1>
+      <p style="margin:0;font-size:13.5px;color:var(--ink-soft);">รอบประเมิน 1 – 31 ต.ค. 2569 · ท่านได้รับมอบหมาย 4 ท่าน</p>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;">
+
+      <!-- ===== LEFT: evaluatee list ===== -->
+      <div style="flex:1 1 280px;min-width:260px;display:flex;flex-direction:column;gap:12px;">
+        <div class="card" style="padding:12px;display:flex;flex-direction:column;gap:3px;">
+
+          <div class="evaluatee-row selected">
+            <div class="avatar" style="width:36px;height:36px;background:var(--accent-soft);color:var(--panel-b);font-size:12.5px;">กศ</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:13px;font-weight:600;">กานต์ ศรีวิเศษ</div>
+              <div style="font-size:11.5px;color:var(--ink-soft);">แผนกเทคโนโลยีสารสนเทศ</div>
+            </div>
+            <span class="pill" style="background:var(--status-warn-bg);color:var(--status-warn);">ร่าง</span>
+          </div>
+
+          <div class="evaluatee-row">
+            <div class="avatar" style="width:36px;height:36px;background:var(--bg);color:var(--ink-soft);font-size:12.5px;">ปพ</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:13px;font-weight:600;">ปิยะดา เพชรรัตน์</div>
+              <div style="font-size:11.5px;color:var(--ink-soft);">แผนกบัญชี</div>
+            </div>
+            <span class="pill" style="background:var(--status-good-bg);color:var(--status-good);">ยืนยันแล้ว</span>
+          </div>
+
+          <div class="evaluatee-row">
+            <div class="avatar" style="width:36px;height:36px;background:var(--bg);color:var(--ink-soft);font-size:12.5px;">ธท</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:13px;font-weight:600;">ธนกร ทองสุข</div>
+              <div style="font-size:11.5px;color:var(--ink-soft);">แผนกช่างยนต์</div>
+            </div>
+            <span class="pill" style="background:var(--status-neutral-bg);color:var(--status-neutral);">ยังไม่ประเมิน</span>
+          </div>
+
+          <div class="evaluatee-row">
+            <div class="avatar" style="width:36px;height:36px;background:var(--bg);color:var(--ink-soft);font-size:12.5px;">มก</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:13px;font-weight:600;">มณีรัตน์ แก้วใส</div>
+              <div style="font-size:11.5px;color:var(--ink-soft);">แผนกคอมพิวเตอร์ธุรกิจ</div>
+            </div>
+            <span class="pill" style="background:var(--status-good-bg);color:var(--status-good);">ยืนยันแล้ว</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== RIGHT: scoring detail ===== -->
+      <div style="flex:2 1 560px;min-width:0;display:flex;flex-direction:column;gap:16px;">
+
+        <!-- evaluatee header -->
+        <div class="card" style="padding:18px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <div class="avatar" style="width:46px;height:46px;background:var(--accent-soft);color:var(--panel-b);font-size:15px;">กศ</div>
+          <div style="flex:1;min-width:160px;">
+            <div style="font-size:16px;font-weight:700;">กานต์ ศรีวิเศษ</div>
+            <div style="font-size:12.5px;color:var(--ink-soft);">แผนกเทคโนโลยีสารสนเทศ · ผู้รับการประเมิน</div>
+          </div>
+          <span class="pill" style="background:var(--status-warn-bg);color:var(--status-warn);">สถานะ: ร่าง</span>
+        </div>
+
+        <!-- scoring table -->
+        <div class="card" style="padding:22px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <h3 style="margin:0;font-size:14.5px;font-weight:700;">ด้านการสอนและการจัดการเรียนรู้</h3>
+            <span style="font-size:12px;color:var(--ink-faint);">ให้คะแนนแล้ว 2 / 4 ตัวชี้วัด</span>
+          </div>
+
+          <div style="display:flex;gap:14px;padding:10px 4px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-faint);font-weight:700;border-bottom:1.5px solid var(--border);">
+            <div style="flex:1;">ตัวชี้วัด</div>
+            <div style="flex:none;width:94px;">คะแนนตนเอง</div>
+            <div style="flex:none;width:168px;">คะแนนกรรมการ</div>
+            <div style="flex:none;width:32px;"></div>
+          </div>
+
+          <div class="score-row">
+            <div style="flex:1;min-width:160px;">
+              <div style="font-size:13.5px;font-weight:600;">การจัดทำแผนการสอนรายวิชา</div>
+              <div style="font-size:11.5px;color:var(--ink-faint);">น้ำหนัก 15%</div>
+            </div>
+            <div style="flex:none;width:94px;"><span class="pill" style="background:var(--status-neutral-bg);color:var(--status-neutral);">ระดับ 3</span></div>
+            <div class="seg" style="flex:none;width:168px;">
+              <button type="button">1</button><button type="button">2</button><button type="button" class="on">3</button><button type="button">4</button>
+            </div>
+            <button type="button" aria-label="ดูหลักฐาน" style="flex:none;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--ink-faint);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 10S4.5 4.5 10 4.5 18.5 10 18.5 10 15.5 15.5 10 15.5 1.5 10 1.5 10Z"/><circle cx="10" cy="10" r="2.5"/></svg>
+            </button>
+          </div>
+
+          <div class="score-row">
+            <div style="flex:1;min-width:160px;">
+              <div style="font-size:13.5px;font-weight:600;">เทคนิคการสอนที่หลากหลาย</div>
+              <div style="font-size:11.5px;color:var(--ink-faint);">น้ำหนัก 20%</div>
+            </div>
+            <div style="flex:none;width:94px;"><span class="pill" style="background:var(--status-neutral-bg);color:var(--status-neutral);">ระดับ 4</span></div>
+            <div class="seg" style="flex:none;width:168px;">
+              <button type="button">1</button><button type="button">2</button><button type="button">3</button><button type="button" class="on">4</button>
+            </div>
+            <button type="button" aria-label="ดูหลักฐาน" style="flex:none;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--ink-faint);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 10S4.5 4.5 10 4.5 18.5 10 18.5 10 15.5 15.5 10 15.5 1.5 10 1.5 10Z"/><circle cx="10" cy="10" r="2.5"/></svg>
+            </button>
+          </div>
+
+          <div class="score-row">
+            <div style="flex:1;min-width:160px;">
+              <div style="font-size:13.5px;font-weight:600;color:var(--ink-soft);">การวัดและประเมินผู้เรียน</div>
+              <div style="font-size:11.5px;color:var(--ink-faint);">น้ำหนัก 15%</div>
+            </div>
+            <div style="flex:none;width:94px;"><span style="font-size:12px;color:var(--ink-faint);">ยังไม่กรอก</span></div>
+            <div class="seg" style="flex:none;width:168px;">
+              <button type="button" class="off" disabled>1</button><button type="button" class="off" disabled>2</button><button type="button" class="off" disabled>3</button><button type="button" class="off" disabled>4</button>
+            </div>
+            <div style="flex:none;width:30px;"></div>
+          </div>
+
+          <div class="score-row">
+            <div style="flex:1;min-width:160px;">
+              <div style="font-size:13.5px;font-weight:600;color:var(--ink-soft);">การใช้สื่อและเทคโนโลยี</div>
+              <div style="font-size:11.5px;color:var(--ink-faint);">น้ำหนัก 10%</div>
+            </div>
+            <div style="flex:none;width:94px;"><span style="font-size:12px;color:var(--ink-faint);">ยังไม่กรอก</span></div>
+            <div class="seg" style="flex:none;width:168px;">
+              <button type="button" class="off" disabled>1</button><button type="button" class="off" disabled>2</button><button type="button" class="off" disabled>3</button><button type="button" class="off" disabled>4</button>
+            </div>
+            <div style="flex:none;width:30px;"></div>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1.5px solid var(--border);">
+            <span style="font-size:13px;font-weight:600;color:var(--ink-soft);">คะแนนเฉลี่ยที่ให้ไปแล้ว</span>
+            <span style="font-size:18px;font-weight:700;color:var(--panel-b);font-variant-numeric:tabular-nums;">3.5 <span style="font-size:12.5px;font-weight:500;color:var(--ink-faint);">/ 4.0</span></span>
+          </div>
+        </div>
+
+        <!-- overall comment -->
+        <div class="card" style="padding:22px;">
+          <label class="field-label">ความคิดเห็นสรุปโดยภาพรวม</label>
+          <textarea class="input" rows="3">การจัดการเรียนรู้มีความหลากหลายดี ควรเพิ่มหลักฐานเชิงประจักษ์ของผลลัพธ์ผู้เรียนประกอบด้วย โดยรวมมีความตั้งใจปฏิบัติงานตามมาตรฐานที่กำหนด</textarea>
+        </div>
+
+        <!-- signature + submit -->
+        <div class="card" style="padding:22px;">
+          <label class="field-label">ลงนามรับรองผลการประเมิน</label>
+          <div style="border:1.5px dashed var(--border);border-radius:10px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--ink-faint);margin-bottom:16px;">
+            <svg viewBox="0 0 20 20" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15.5c3-1 4.5-6 6-8s3 2 5-1 3-3.5 3-3.5"/><path d="M3 17.5h14"/></svg>
+            <span style="font-size:12.5px;">แตะหรือวาดลายเซ็นที่นี่</span>
+            <a href="#" style="font-size:12px;font-weight:600;">ล้างลายเซ็น</a>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
+            <button type="button" style="padding:11px 20px;border-radius:9px;border:1.5px solid var(--border);background:var(--surface);font-family:inherit;font-size:13.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;">บันทึกร่าง</button>
+            <button type="button" style="padding:11px 22px;border-radius:9px;border:none;background:var(--accent-warm);color:#fff;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;">ยืนยันและส่งผลการประเมิน</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":1560}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

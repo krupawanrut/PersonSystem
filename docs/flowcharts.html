@@ -1,0 +1,1316 @@
+<title>ผังงานประเมินบุคลากร</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap');
+
+:root{
+  --bg:#f6f2ea;
+  --surface:#ffffff;
+  --surface-2:#faf7f0;
+  --border:#ddd4c0;
+  --ink:#241f17;
+  --ink-soft:#6b6253;
+  --accent:#1f4e8c;
+  --accent-soft:#dde7f6;
+  --decision:#a9701f;
+  --decision-soft:#f5e4c7;
+  --terminator:#27694c;
+  --terminator-soft:#dbede1;
+  --io:#6a4b96;
+  --io-soft:#ece3f6;
+  --method-get:#1f4e8c;
+  --method-post:#2f7d4f;
+  --method-put:#a9701f;
+  --method-delete:#b23b3b;
+  --shadow:0 1px 2px rgba(30,24,10,.05), 0 10px 28px -18px rgba(30,24,10,.35);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15181d;
+    --surface:#1b1f26;
+    --surface-2:#1f242c;
+    --border:#333a46;
+    --ink:#ecE8DD;
+    --ink-soft:#a39d8e;
+    --accent:#86b2ea;
+    --accent-soft:#213a5c;
+    --decision:#e3a85a;
+    --decision-soft:#3c2e18;
+    --terminator:#7fcba1;
+    --terminator-soft:#1d3327;
+    --io:#c3a7ef;
+    --io-soft:#2b2438;
+    --method-get:#86b2ea;
+    --method-post:#7ecb9c;
+    --method-put:#e3a85a;
+    --method-delete:#e38a8a;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15181d;
+  --surface:#1b1f26;
+  --surface-2:#1f242c;
+  --border:#333a46;
+  --ink:#ece8dd;
+  --ink-soft:#a39d8e;
+  --accent:#86b2ea;
+  --accent-soft:#213a5c;
+  --decision:#e3a85a;
+  --decision-soft:#3c2e18;
+  --terminator:#7fcba1;
+  --terminator-soft:#1d3327;
+  --io:#c3a7ef;
+  --io-soft:#2b2438;
+  --method-get:#86b2ea;
+  --method-post:#7ecb9c;
+  --method-put:#e3a85a;
+  --method-delete:#e38a8a;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Sarabun',"Noto Sans Thai","Leelawadee UI",sans-serif;
+  padding-inline:20px;
+  padding-block:36px 56px;
+}
+.wrap{max-width:1180px;margin-inline:auto;}
+
+header.page{
+  margin-bottom:34px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.eyebrow{
+  font-size:12.5px;
+  font-weight:600;
+  letter-spacing:.09em;
+  color:var(--accent);
+  text-transform:uppercase;
+}
+h1{
+  margin:0;
+  font-size:clamp(26px,4vw,38px);
+  font-weight:800;
+  text-wrap:balance;
+  letter-spacing:-.01em;
+}
+.sub{
+  margin:0;
+  max-width:62ch;
+  color:var(--ink-soft);
+  font-size:15.5px;
+  line-height:1.65;
+}
+.meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:6px;
+}
+.chip{
+  font-size:12.5px;
+  font-weight:600;
+  padding:5px 12px;
+  border-radius:999px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  color:var(--ink-soft);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px;
+}
+@media (max-width:920px){
+  .grid{grid-template-columns:1fr;}
+}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.card-head{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:18px 20px 14px;
+  border-bottom:1px solid var(--border);
+}
+.num-badge{
+  flex:none;
+  width:34px;
+  height:34px;
+  border-radius:9px;
+  background:var(--accent-soft);
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+}
+.card-head h2{
+  margin:0 0 2px;
+  font-size:16.5px;
+  font-weight:700;
+  letter-spacing:-.005em;
+}
+.card-head p{
+  margin:0;
+  font-size:12.5px;
+  color:var(--ink-soft);
+  line-height:1.5;
+}
+.diagram-scroll{
+  overflow-x:auto;
+  padding:18px 14px 20px;
+  background:var(--surface-2);
+}
+.diagram-scroll svg{
+  display:block;
+  margin-inline:auto;
+  max-width:100%;
+  height:auto;
+}
+
+svg text{font-family:'Sarabun',"Noto Sans Thai",sans-serif;}
+.shape{stroke-width:1.6;}
+.shape.terminator{fill:var(--terminator-soft);stroke:var(--terminator);}
+.shape.process{fill:var(--surface);stroke:var(--ink-soft);}
+.shape.decision{fill:var(--decision-soft);stroke:var(--decision);}
+.shape.io{fill:var(--io-soft);stroke:var(--io);}
+.label{fill:var(--ink);font-size:11.5px;}
+.label.strong{font-weight:600;}
+.edge-label{fill:var(--ink-soft);font-size:10px;font-weight:600;}
+.flow-line{fill:none;stroke:var(--ink-soft);stroke-width:1.5;color:var(--ink-soft);}
+
+.card.wide{grid-column:1 / -1;margin-top:22px;}
+.uc-boundary{fill:var(--surface-2);stroke:var(--accent);stroke-width:1.6;}
+.uc-boundary-label{fill:var(--accent);font-size:13px;font-weight:700;}
+.uc-oval{fill:var(--io-soft);stroke:var(--io);stroke-width:1.6;}
+.uc-oval.login{fill:var(--terminator-soft);stroke:var(--terminator);}
+.uc-label{fill:var(--ink);font-size:11px;}
+.uc-actor{fill:none;stroke:var(--accent);stroke-width:2;}
+.uc-actor-label{fill:var(--ink);font-size:11.5px;font-weight:600;}
+.uc-line{fill:none;stroke:var(--ink-soft);stroke-width:1.2;opacity:.75;}
+.uc-include{fill:none;stroke:var(--decision);stroke-width:1.5;stroke-dasharray:5 4;color:var(--decision);}
+.uc-include-label{fill:var(--decision);font-size:10px;font-weight:600;}
+
+.cls-box{fill:var(--surface);stroke:var(--ink-soft);stroke-width:1.4;}
+.cls-header{fill:var(--accent-soft);stroke:var(--ink-soft);stroke-width:1.4;}
+.cls-divider{stroke:var(--ink-soft);stroke-width:1;}
+.cls-name{fill:var(--ink);font-size:12.5px;font-weight:700;}
+.cls-name.abstract{font-style:italic;}
+.cls-text{fill:var(--ink);font-size:10.3px;}
+.cls-rel{fill:none;stroke:var(--ink-soft);stroke-width:1.3;color:var(--ink-soft);}
+.cls-rel-label{fill:var(--accent);font-size:10px;font-weight:600;}
+.cls-mult{fill:var(--ink-soft);font-size:9px;}
+.cls-diamond{fill:var(--surface-2);stroke:var(--ink-soft);stroke-width:1.3;}
+.cls-triangle{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;}
+
+/* ---- API documentation ---- */
+.api-group{margin-bottom:22px;}
+.api-group:last-child{margin-bottom:0;}
+.api-group h4{margin:0 0 10px;font-size:13.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px;}
+.api-group h4::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);}
+table.api-table{border-collapse:collapse;width:100%;font-size:12.5px;}
+table.api-table th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);font-weight:700;padding:0 10px 8px;border-bottom:1.5px solid var(--border);}
+table.api-table td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+table.api-table tr:last-child td{border-bottom:none;}
+.endpoint{font-family:ui-monospace,SFMono-Regular,"Courier New",monospace;font-size:12px;color:var(--ink);}
+.method{display:inline-block;min-width:52px;text-align:center;padding:3px 8px;border-radius:5px;font-size:10.5px;font-weight:700;font-family:ui-monospace,SFMono-Regular,"Courier New",monospace;color:#fff;}
+.method.get{background:var(--method-get);}
+.method.post{background:var(--method-post);}
+.method.put{background:var(--method-put);}
+.method.delete{background:var(--method-delete);}
+.role-note{color:var(--ink-soft);font-size:12px;}
+
+.code-card{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface);}
+.code-card .code-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:var(--surface-2);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.code-card .code-head .req{font-family:ui-monospace,SFMono-Regular,"Courier New",monospace;font-size:12px;font-weight:600;color:var(--ink);}
+.status-chip{font-family:ui-monospace,SFMono-Regular,"Courier New",monospace;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;}
+.status-chip.s2{background:var(--status-good-bg,#dceee2);color:var(--method-post);}
+.status-chip.s4{background:#fbe6e6;color:var(--method-delete);}
+.code-card pre{margin:0;padding:14px 16px;font-family:ui-monospace,SFMono-Regular,"Courier New",monospace;font-size:12px;line-height:1.65;color:var(--ink);overflow-x:auto;background:var(--surface-2);}
+.code-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+@media (max-width:860px){.code-grid{grid-template-columns:1fr;}}
+
+table.rbac-table{border-collapse:collapse;width:100%;font-size:12.5px;}
+table.rbac-table th,table.rbac-table td{padding:10px 12px;border:1px solid var(--border);text-align:center;}
+table.rbac-table th{background:var(--surface-2);font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-soft);}
+table.rbac-table td:first-child{text-align:left;font-weight:600;background:var(--surface-2);}
+.sec-list{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:10px;}
+.sec-list li{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.6;color:var(--ink);}
+.sec-list svg{flex:none;margin-top:2px;color:var(--accent);}
+
+.legend{
+  margin-top:26px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  padding:18px 22px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:22px;
+  align-items:center;
+}
+.legend h3{
+  margin:0;
+  font-size:13px;
+  font-weight:700;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  flex-basis:100%;
+}
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:13px;
+  color:var(--ink-soft);
+}
+.legend-item svg{flex:none;}
+
+footer.page{
+  margin-top:28px;
+  font-size:12.5px;
+  color:var(--ink-soft);
+  line-height:1.6;
+  border-top:1px solid var(--border);
+  padding-top:16px;
+}
+
+@media (prefers-reduced-motion:no-preference){
+  .card{animation:rise .5s ease backwards;}
+  .card:nth-child(1){animation-delay:.02s;}
+  .card:nth-child(2){animation-delay:.08s;}
+  .card:nth-child(3){animation-delay:.14s;}
+  .card:nth-child(4){animation-delay:.2s;}
+  @keyframes rise{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="page">
+    <span class="eyebrow">เอกสารออกแบบระบบ · ตามเกณฑ์การแข่งขันทักษะ</span>
+    <h1>ผังงานระบบประเมินบุคลากร</h1>
+    <p class="sub">ผังงานตามความต้องการของผู้ใช้ 4 กระบวนการหลัก ครอบคลุมการเข้าสู่ระบบ และการทำงานของผู้ใช้งานทั้งสามบทบาท ได้แก่ ฝ่ายบุคลากร ผู้รับการประเมิน และกรรมการผู้ประเมิน พร้อมแผนภาพภาพรวมระบบแบบ Use Case, Class Diagram ของโครงสร้างระบบทั้งหมด และการออกแบบ RESTful API</p>
+    <div class="meta-row">
+      <span class="chip">1.1 Login Flow</span>
+      <span class="chip">1.2 ฝ่ายบุคลากร</span>
+      <span class="chip">1.3 ผู้รับการประเมิน</span>
+      <span class="chip">1.4 กรรมการผู้ประเมิน</span>
+      <span class="chip">1.5 ภาพรวมระบบ (Use Case)</span>
+      <span class="chip">2.4 Class Diagram</span>
+      <span class="chip">4.1–4.5 RESTful API</span>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- 1.1 LOGIN FLOW -->
+    <section class="card">
+      <div class="card-head">
+        <span class="num-badge">1.1</span>
+        <div>
+          <h2>ผังงานระบบการเข้าสู่ระบบ</h2>
+          <p>ตรวจสอบบัญชีผู้ใช้ บังคับเปลี่ยนรหัสผ่านเมื่อเข้าใช้งานครั้งแรก แล้วนำทางตามบทบาทผู้ใช้</p>
+        </div>
+      </div>
+      <div class="diagram-scroll">
+        <svg viewBox="0 0 660 560" role="img" aria-label="ผังงานการเข้าสู่ระบบ: กรอกบัญชีผู้ใช้ ตรวจสอบความถูกต้อง วนกลับหากผิดพลาด ตรวจสอบการเข้าใช้งานครั้งแรกเพื่อบังคับเปลี่ยนรหัสผ่าน แล้วนำทางตามบทบาทผู้ใช้">
+          <defs>
+            <marker id="a1" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <!-- N1 start -->
+          <rect x="145" y="14" width="170" height="40" rx="20" class="shape terminator"/>
+          <text x="230" y="38" text-anchor="middle" class="label strong">เริ่มต้น</text>
+
+          <!-- line N1->N2 -->
+          <path d="M230,54 L230,88" class="flow-line" marker-end="url(#a1)"/>
+
+          <!-- N2 io: username/password -->
+          <polygon points="131,88 345,88 329,134 115,134" class="shape io"/>
+          <text x="230" y="105" text-anchor="middle" class="label"><tspan x="230">กรอก Username</tspan><tspan x="230" dy="14">และ Password</tspan></text>
+
+          <!-- line N2->N3 -->
+          <path d="M230,134 L230,168" class="flow-line" marker-end="url(#a1)"/>
+
+          <!-- N3 decision: valid? -->
+          <polygon points="230,168 330,211 230,254 130,211" class="shape decision"/>
+          <text x="230" y="206" text-anchor="middle" class="label"><tspan x="230">ข้อมูลถูกต้อง</tspan><tspan x="230" dy="14">หรือไม่?</tspan></text>
+
+          <!-- loop: No -> back to N2 -->
+          <path d="M130,211 L70,211 L70,111 L115,111" class="flow-line" marker-end="url(#a1)"/>
+          <text x="63" y="165" text-anchor="end" class="edge-label">ไม่ถูกต้อง</text>
+
+          <!-- Yes -> N4 -->
+          <path d="M230,254 L230,288" class="flow-line" marker-end="url(#a1)"/>
+          <text x="238" y="274" class="edge-label">ถูกต้อง</text>
+
+          <!-- N4 decision: first login? -->
+          <polygon points="230,288 330,331 230,374 130,331" class="shape decision"/>
+          <text x="230" y="326" text-anchor="middle" class="label"><tspan x="230">เข้าสู่ระบบ</tspan><tspan x="230" dy="14">ครั้งแรก?</tspan></text>
+
+          <!-- Yes -> branch box -->
+          <path d="M330,331 L370,331" class="flow-line" marker-end="url(#a1)"/>
+          <text x="350" y="322" text-anchor="middle" class="edge-label">ใช่</text>
+
+          <rect x="370" y="308" width="230" height="46" rx="6" class="shape process"/>
+          <text x="485" y="325" text-anchor="middle" class="label"><tspan x="485">บังคับให้เปลี่ยน</tspan><tspan x="485" dy="14">รหัสผ่านใหม่</tspan></text>
+
+          <!-- branch merge down into N5 right edge -->
+          <path d="M485,354 L485,431 L345,431" class="flow-line" marker-end="url(#a1)"/>
+
+          <!-- No -> straight down -->
+          <path d="M230,374 L230,408" class="flow-line" marker-end="url(#a1)"/>
+          <text x="238" y="394" class="edge-label">ไม่ใช่</text>
+
+          <!-- N5 process: verify role -->
+          <rect x="115" y="408" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="425" text-anchor="middle" class="label"><tspan x="230">ตรวจสอบสิทธิ์และนำทาง</tspan><tspan x="230" dy="14">ตามบทบาทผู้ใช้งาน</tspan></text>
+
+          <!-- line N5 -> N6 -->
+          <path d="M230,454 L230,488" class="flow-line" marker-end="url(#a1)"/>
+
+          <!-- N6 end -->
+          <rect x="145" y="488" width="170" height="40" rx="20" class="shape terminator"/>
+          <text x="230" y="512" text-anchor="middle" class="label strong">สิ้นสุด</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 1.2 HR FLOW -->
+    <section class="card">
+      <div class="card-head">
+        <span class="num-badge">1.2</span>
+        <div>
+          <h2>ผังงานกระบวนการของฝ่ายบุคลากร</h2>
+          <p>ตั้งค่าการประเมิน เพิ่มข้อมูลผู้ใช้งาน มอบหมายกรรมการ และติดตามผลจนปิดรอบประเมิน</p>
+        </div>
+      </div>
+      <div class="diagram-scroll">
+        <svg viewBox="0 0 620 660" role="img" aria-label="ผังงานฝ่ายบุคลากร: เข้าสู่ระบบ ตั้งค่าหัวข้อและตัวชี้วัด เพิ่มข้อมูลผู้ใช้งาน มอบหมายกรรมการ วนติดตามสถานะจนถึงกำหนดปิดรับการประเมิน แล้วออกรายงานสรุป">
+          <defs>
+            <marker id="a2" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <rect x="145" y="14" width="170" height="40" rx="20" class="shape terminator"/>
+          <text x="230" y="38" text-anchor="middle" class="label strong">เริ่มต้น</text>
+          <path d="M230,54 L230,84" class="flow-line" marker-end="url(#a2)"/>
+
+          <rect x="115" y="84" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="111" text-anchor="middle" class="label">เข้าสู่ระบบ (Login)</text>
+          <path d="M230,130 L230,160" class="flow-line" marker-end="url(#a2)"/>
+
+          <rect x="115" y="160" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="177" text-anchor="middle" class="label"><tspan x="230">ตั้งค่าหัวข้อ ตัวชี้วัด และ</tspan><tspan x="230" dy="14">ช่วงเวลาเปิด–ปิดการประเมิน</tspan></text>
+          <path d="M230,206 L230,236" class="flow-line" marker-end="url(#a2)"/>
+
+          <rect x="115" y="236" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="253" text-anchor="middle" class="label"><tspan x="230">เพิ่มข้อมูลผู้รับการประเมิน</tspan><tspan x="230" dy="14">และกรรมการผู้ประเมิน</tspan></text>
+          <path d="M230,282 L230,312" class="flow-line" marker-end="url(#a2)"/>
+
+          <rect x="115" y="312" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="329" text-anchor="middle" class="label"><tspan x="230">มอบหมายกรรมการ และกำหนด</tspan><tspan x="230" dy="14">บทบาท (ประธาน/กรรมการร่วม)</tspan></text>
+          <path d="M230,358 L230,392" class="flow-line" marker-end="url(#a2)"/>
+
+          <!-- decision -->
+          <polygon points="230,392 330,435 230,478 130,435" class="shape decision"/>
+          <text x="230" y="430" text-anchor="middle" class="label"><tspan x="230">ถึงกำหนดปิดรับ</tspan><tspan x="230" dy="14">การประเมินหรือไม่?</tspan></text>
+
+          <!-- No loop -->
+          <path d="M330,435 L370,435" class="flow-line" marker-end="url(#a2)"/>
+          <text x="350" y="426" text-anchor="middle" class="edge-label">ยังไม่ถึง</text>
+          <rect x="370" y="410" width="200" height="50" rx="6" class="shape process"/>
+          <text x="470" y="430" text-anchor="middle" class="label"><tspan x="470">ติดตามสถานะและร้อยละ</tspan><tspan x="470" dy="14">การประเมินของกรรมการ</tspan></text>
+          <path d="M470,410 L470,375 L232,375" class="flow-line" marker-end="url(#a2)"/>
+
+          <!-- Yes -->
+          <path d="M230,478 L230,508" class="flow-line" marker-end="url(#a2)"/>
+          <text x="238" y="498" class="edge-label">ถึงกำหนด</text>
+
+          <rect x="115" y="508" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="525" text-anchor="middle" class="label"><tspan x="230">สรุปผลและออกรายงานผล</tspan><tspan x="230" dy="14">รายบุคคล / รายกรรมการ</tspan></text>
+          <path d="M230,554 L230,584" class="flow-line" marker-end="url(#a2)"/>
+
+          <rect x="145" y="584" width="170" height="40" rx="20" class="shape terminator"/>
+          <text x="230" y="608" text-anchor="middle" class="label strong">สิ้นสุด</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 1.3 EVALUATEE FLOW -->
+    <section class="card">
+      <div class="card-head">
+        <span class="num-badge">1.3</span>
+        <div>
+          <h2>ผังงานกระบวนการของผู้รับการประเมิน</h2>
+          <p>กรอกหลักฐานและประเมินตนเองให้ครบทุกตัวชี้วัด ก่อนตรวจสอบผลและส่งออกรายงาน</p>
+        </div>
+      </div>
+      <div class="diagram-scroll">
+        <svg viewBox="0 0 440 740" role="img" aria-label="ผังงานผู้รับการประเมิน: เข้าสู่ระบบ แก้ไขข้อมูลส่วนตัว เลือกตัวชี้วัด กรอกหลักฐานและคะแนนตนเอง วนจนครบทุกตัวชี้วัด แล้วตรวจสอบความก้าวหน้าและส่งออก PDF">
+          <defs>
+            <marker id="a3" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <rect x="145" y="14" width="170" height="40" rx="20" class="shape terminator"/>
+          <text x="230" y="38" text-anchor="middle" class="label strong">เริ่มต้น</text>
+          <path d="M230,54 L230,84" class="flow-line" marker-end="url(#a3)"/>
+
+          <rect x="115" y="84" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="101" text-anchor="middle" class="label"><tspan x="230">เข้าสู่ระบบ (บังคับเปลี่ยน</tspan><tspan x="230" dy="14">รหัสผ่านเมื่อใช้งานครั้งแรก)</tspan></text>
+          <path d="M230,130 L230,160" class="flow-line" marker-end="url(#a3)"/>
+
+          <rect x="115" y="160" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="187" text-anchor="middle" class="label">แก้ไขข้อมูลส่วนตัวเบื้องต้น</text>
+          <path d="M230,206 L230,236" class="flow-line" marker-end="url(#a3)"/>
+
+          <rect x="115" y="236" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="263" text-anchor="middle" class="label">เลือกตัวชี้วัดที่ต้องประเมิน</text>
+          <path d="M230,282 L230,312" class="flow-line" marker-end="url(#a3)"/>
+
+          <rect x="115" y="312" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="329" text-anchor="middle" class="label"><tspan x="230">เพิ่มรายละเอียด แนบหลักฐาน</tspan><tspan x="230" dy="14">และกรอกคะแนนประเมินตนเอง</tspan></text>
+          <path d="M230,358 L230,392" class="flow-line" marker-end="url(#a3)"/>
+
+          <polygon points="230,392 330,435 230,478 130,435" class="shape decision"/>
+          <text x="230" y="430" text-anchor="middle" class="label"><tspan x="230">ครบทุกตัวชี้วัด</tspan><tspan x="230" dy="14">แล้วหรือไม่?</tspan></text>
+
+          <!-- loop No -> back to "เลือกตัวชี้วัด" -->
+          <path d="M330,435 L390,435 L390,259 L345,259" class="flow-line" marker-end="url(#a3)"/>
+          <text x="398" y="350" text-anchor="start" class="edge-label" transform="rotate(90 398 350)">ยังไม่ครบ</text>
+
+          <path d="M230,478 L230,508" class="flow-line" marker-end="url(#a3)"/>
+          <text x="238" y="498" class="edge-label">ครบแล้ว</text>
+
+          <rect x="115" y="508" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="525" text-anchor="middle" class="label"><tspan x="230">ตรวจสอบความก้าวหน้า และดู</tspan><tspan x="230" dy="14">ความคิดเห็นของกรรมการ</tspan></text>
+          <path d="M230,554 L230,584" class="flow-line" marker-end="url(#a3)"/>
+
+          <rect x="115" y="584" width="230" height="46" rx="6" class="shape process"/>
+          <text x="230" y="611" text-anchor="middle" class="label">Export รายงานเป็นไฟล์ PDF</text>
+          <path d="M230,630 L230,660" class="flow-line" marker-end="url(#a3)"/>
+
+          <rect x="145" y="660" width="170" height="40" rx="20" class="shape terminator"/>
+          <text x="230" y="684" text-anchor="middle" class="label strong">สิ้นสุด</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 1.4 EVALUATOR FLOW -->
+    <section class="card">
+      <div class="card-head">
+        <span class="num-badge">1.4</span>
+        <div>
+          <h2>ผังงานกระบวนการของกรรมการผู้ประเมิน</h2>
+          <p>ตรวจหลักฐาน ให้คะแนนตามตัวชี้วัด บันทึกร่าง แก้ไขได้จนพอใจ แล้วลงนามส่งผล</p>
+        </div>
+      </div>
+      <div class="diagram-scroll">
+        <svg viewBox="0 0 440 860" role="img" aria-label="ผังงานกรรมการผู้ประเมิน: เข้าสู่ระบบ เลือกผู้รับการประเมิน ตรวจหลักฐาน ให้คะแนนและบันทึกร่าง วนแก้ไขร่างได้ตามต้องการ แล้วลงนามและยืนยันส่งผลการประเมิน">
+          <defs>
+            <marker id="a4" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <rect x="175" y="14" width="170" height="40" rx="20" class="shape terminator"/>
+          <text x="260" y="38" text-anchor="middle" class="label strong">เริ่มต้น</text>
+          <path d="M260,54 L260,84" class="flow-line" marker-end="url(#a4)"/>
+
+          <rect x="145" y="84" width="230" height="46" rx="6" class="shape process"/>
+          <text x="260" y="111" text-anchor="middle" class="label">เข้าสู่ระบบ (Login)</text>
+          <path d="M260,130 L260,160" class="flow-line" marker-end="url(#a4)"/>
+
+          <rect x="145" y="160" width="230" height="46" rx="6" class="shape process"/>
+          <text x="260" y="187" text-anchor="middle" class="label">เลือกผู้รับการประเมินที่ได้รับมอบหมาย</text>
+          <path d="M260,206 L260,236" class="flow-line" marker-end="url(#a4)"/>
+
+          <rect x="145" y="236" width="230" height="46" rx="6" class="shape process"/>
+          <text x="260" y="253" text-anchor="middle" class="label"><tspan x="260">ตรวจสอบหัวข้อ ตัวชี้วัด</tspan><tspan x="260" dy="14">หลักฐาน และคะแนนประเมินตนเอง</tspan></text>
+          <path d="M260,282 L260,312" class="flow-line" marker-end="url(#a4)"/>
+
+          <rect x="145" y="312" width="230" height="46" rx="6" class="shape process"/>
+          <text x="260" y="329" text-anchor="middle" class="label"><tspan x="260">ให้คะแนนตามตัวชี้วัด และ</tspan><tspan x="260" dy="14">บันทึกความเห็นสรุปภาพรวม</tspan></text>
+          <path d="M260,358 L260,384" class="flow-line" marker-end="url(#a4)"/>
+
+          <rect x="145" y="384" width="230" height="46" rx="6" class="shape process"/>
+          <text x="260" y="411" text-anchor="middle" class="label">บันทึกร่างคะแนนและความคิดเห็น</text>
+          <path d="M260,430 L260,464" class="flow-line" marker-end="url(#a4)"/>
+
+          <polygon points="260,464 360,507 260,550 160,507" class="shape decision"/>
+          <text x="260" y="502" text-anchor="middle" class="label"><tspan x="260">ต้องการแก้ไข</tspan><tspan x="260" dy="14">ร่างอีกหรือไม่?</tspan></text>
+
+          <!-- loop Yes -> back to "บันทึกร่าง" -->
+          <path d="M160,507 L90,507 L90,407 L145,407" class="flow-line" marker-end="url(#a4)"/>
+          <text x="82" y="460" text-anchor="end" class="edge-label" transform="rotate(-90 82 460)">ต้องการแก้ไข</text>
+
+          <path d="M260,550 L260,580" class="flow-line" marker-end="url(#a4)"/>
+          <text x="268" y="570" class="edge-label">ไม่แก้ไข</text>
+
+          <rect x="145" y="580" width="230" height="46" rx="6" class="shape process"/>
+          <text x="260" y="607" text-anchor="middle" class="label">ลงนามรับรองผลการประเมิน (แนบลายเซ็น)</text>
+          <path d="M260,626 L260,656" class="flow-line" marker-end="url(#a4)"/>
+
+          <rect x="145" y="656" width="230" height="46" rx="6" class="shape process"/>
+          <text x="260" y="683" text-anchor="middle" class="label">ยืนยันและส่งผลการประเมิน</text>
+          <path d="M260,702 L260,732" class="flow-line" marker-end="url(#a4)"/>
+
+          <rect x="175" y="732" width="170" height="40" rx="20" class="shape terminator"/>
+          <text x="260" y="756" text-anchor="middle" class="label strong">สิ้นสุด</text>
+        </svg>
+      </div>
+    </section>
+
+  </div>
+
+  <section class="card wide">
+    <div class="card-head">
+      <span class="num-badge">1.5</span>
+      <div>
+        <h2>ผังงานภาพรวมของระบบทั้งหมด (System Overview — Use Case Diagram)</h2>
+        <p>แสดงผู้ใช้งานทั้ง 3 บทบาท และฟังก์ชันการทำงานทั้งหมดของระบบในภาพเดียว เพื่อให้เห็นขอบเขตการทำงานของแต่ละบทบาทอย่างชัดเจน</p>
+      </div>
+    </div>
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 980 830" role="img" aria-label="แผนภาพ Use Case ภาพรวมระบบประเมินบุคลากร แสดงผู้กระทำ 3 ราย ได้แก่ ฝ่ายบุคลากร ผู้รับการประเมิน และกรรมการผู้ประเมิน พร้อมยูสเคสทั้งหมดที่แต่ละบทบาทเชื่อมโยงอยู่ และความสัมพันธ์ include ระหว่างการลงนามกับการยืนยันส่งผล">
+        <defs>
+          <marker id="aL" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <!-- system boundary -->
+        <rect x="160" y="50" width="780" height="745" rx="8" class="uc-boundary"/>
+        <text x="175" y="75" class="uc-boundary-label">ระบบประเมินบุคลากร (Personnel Evaluation System)</text>
+
+        <!-- shared login use case -->
+        <ellipse cx="590" cy="110" rx="110" ry="29" class="uc-oval login"/>
+        <text x="590" y="115" text-anchor="middle" class="uc-label" style="font-weight:600">เข้าสู่ระบบ (Login)</text>
+
+        <!-- ===== actors ===== -->
+        <!-- HR -->
+        <g class="uc-actor">
+          <circle cx="75" cy="207" r="10"/>
+          <line x1="75" y1="217" x2="75" y2="249"/>
+          <line x1="60" y1="227" x2="90" y2="227"/>
+          <line x1="75" y1="249" x2="62" y2="273"/>
+          <line x1="75" y1="249" x2="88" y2="273"/>
+        </g>
+        <text x="75" y="293" text-anchor="middle" class="uc-actor-label"><tspan x="75">ฝ่ายบุคลากร</tspan><tspan x="75" dy="14">(HR)</tspan></text>
+
+        <!-- Evaluatee -->
+        <g class="uc-actor">
+          <circle cx="75" cy="442" r="10"/>
+          <line x1="75" y1="452" x2="75" y2="484"/>
+          <line x1="60" y1="462" x2="90" y2="462"/>
+          <line x1="75" y1="484" x2="62" y2="508"/>
+          <line x1="75" y1="484" x2="88" y2="508"/>
+        </g>
+        <text x="75" y="528" text-anchor="middle" class="uc-actor-label"><tspan x="75">ผู้รับการ</tspan><tspan x="75" dy="14">ประเมิน</tspan></text>
+
+        <!-- Evaluator -->
+        <g class="uc-actor">
+          <circle cx="75" cy="672" r="10"/>
+          <line x1="75" y1="682" x2="75" y2="714"/>
+          <line x1="60" y1="692" x2="90" y2="692"/>
+          <line x1="75" y1="714" x2="62" y2="738"/>
+          <line x1="75" y1="714" x2="88" y2="738"/>
+        </g>
+        <text x="75" y="758" text-anchor="middle" class="uc-actor-label"><tspan x="75">กรรมการ</tspan><tspan x="75" dy="14">ผู้ประเมิน</tspan></text>
+
+        <!-- actor -> login lines -->
+        <path d="M85,200 L480,100" class="uc-line"/>
+        <path d="M85,442 L480,113" class="uc-line"/>
+        <path d="M85,672 L480,126" class="uc-line"/>
+
+        <!-- ===== HR use cases ===== -->
+        <path d="M85,210 L250,180" class="uc-line"/>
+        <path d="M85,215 L490,180" class="uc-line"/>
+        <path d="M85,220 L730,180" class="uc-line"/>
+        <path d="M85,225 L250,290" class="uc-line"/>
+        <path d="M85,230 L490,290" class="uc-line"/>
+        <path d="M85,235 L730,290" class="uc-line"/>
+
+        <ellipse cx="350" cy="180" rx="100" ry="29" class="uc-oval"/>
+        <text x="350" y="175" text-anchor="middle" class="uc-label"><tspan x="350">จัดการหัวข้อและ</tspan><tspan x="350" dy="13">ตัวชี้วัดการประเมิน</tspan></text>
+
+        <ellipse cx="590" cy="180" rx="100" ry="29" class="uc-oval"/>
+        <text x="590" y="175" text-anchor="middle" class="uc-label"><tspan x="590">กำหนดช่วงเวลา</tspan><tspan x="590" dy="13">เปิด–ปิดการประเมิน</tspan></text>
+
+        <ellipse cx="830" cy="180" rx="100" ry="29" class="uc-oval"/>
+        <text x="830" y="175" text-anchor="middle" class="uc-label"><tspan x="830">จัดการข้อมูลผู้ใช้งาน</tspan><tspan x="830" dy="13">(ผู้รับการประเมิน/กรรมการ)</tspan></text>
+
+        <ellipse cx="350" cy="290" rx="100" ry="29" class="uc-oval"/>
+        <text x="350" y="285" text-anchor="middle" class="uc-label"><tspan x="350">คืนค่ารหัสผ่าน</tspan><tspan x="350" dy="13">(Reset Password)</tspan></text>
+
+        <ellipse cx="590" cy="290" rx="100" ry="29" class="uc-oval"/>
+        <text x="590" y="285" text-anchor="middle" class="uc-label"><tspan x="590">มอบหมายกรรมการ</tspan><tspan x="590" dy="13">และกำหนดบทบาท</tspan></text>
+
+        <ellipse cx="830" cy="290" rx="100" ry="29" class="uc-oval"/>
+        <text x="830" y="285" text-anchor="middle" class="uc-label"><tspan x="830">ติดตามสถานะและ</tspan><tspan x="830" dy="13">สรุปผลการประเมิน</tspan></text>
+
+        <!-- ===== Evaluatee use cases ===== -->
+        <path d="M85,452 L250,420" class="uc-line"/>
+        <path d="M85,457 L490,420" class="uc-line"/>
+        <path d="M85,462 L730,420" class="uc-line"/>
+        <path d="M85,467 L490,520" class="uc-line"/>
+        <path d="M85,472 L730,520" class="uc-line"/>
+
+        <ellipse cx="350" cy="420" rx="100" ry="29" class="uc-oval"/>
+        <text x="350" y="425" text-anchor="middle" class="uc-label">แก้ไขข้อมูลส่วนตัว</text>
+
+        <ellipse cx="590" cy="420" rx="100" ry="29" class="uc-oval"/>
+        <text x="590" y="415" text-anchor="middle" class="uc-label"><tspan x="590">เลือกตัวชี้วัดและ</tspan><tspan x="590" dy="13">แนบหลักฐานประกอบ</tspan></text>
+
+        <ellipse cx="830" cy="420" rx="100" ry="29" class="uc-oval"/>
+        <text x="830" y="415" text-anchor="middle" class="uc-label"><tspan x="830">ประเมินตนเอง</tspan><tspan x="830" dy="13">(กรอกคะแนน)</tspan></text>
+
+        <ellipse cx="590" cy="520" rx="100" ry="29" class="uc-oval"/>
+        <text x="590" y="515" text-anchor="middle" class="uc-label"><tspan x="590">ดูความก้าวหน้า/</tspan><tspan x="590" dy="13">ความเห็นกรรมการ</tspan></text>
+
+        <ellipse cx="830" cy="520" rx="100" ry="29" class="uc-oval"/>
+        <text x="830" y="515" text-anchor="middle" class="uc-label"><tspan x="830">Export รายงาน</tspan><tspan x="830" dy="13">เป็น PDF</tspan></text>
+
+        <!-- ===== Evaluator use cases ===== -->
+        <path d="M85,682 L250,650" class="uc-line"/>
+        <path d="M85,687 L490,650" class="uc-line"/>
+        <path d="M85,692 L730,650" class="uc-line"/>
+        <path d="M85,697 L490,750" class="uc-line"/>
+        <path d="M85,702 L730,750" class="uc-line"/>
+
+        <ellipse cx="350" cy="650" rx="100" ry="29" class="uc-oval"/>
+        <text x="350" y="645" text-anchor="middle" class="uc-label"><tspan x="350">ตรวจสอบข้อมูล/</tspan><tspan x="350" dy="13">หลักฐานผู้รับการประเมิน</tspan></text>
+
+        <ellipse cx="590" cy="650" rx="100" ry="29" class="uc-oval"/>
+        <text x="590" y="655" text-anchor="middle" class="uc-label">ให้คะแนนตามตัวชี้วัด</text>
+
+        <ellipse cx="830" cy="650" rx="100" ry="29" class="uc-oval"/>
+        <text x="830" y="645" text-anchor="middle" class="uc-label"><tspan x="830">บันทึก/แก้ไขร่าง</tspan><tspan x="830" dy="13">คะแนนและความเห็น</tspan></text>
+
+        <ellipse cx="590" cy="750" rx="100" ry="29" class="uc-oval"/>
+        <text x="590" y="745" text-anchor="middle" class="uc-label"><tspan x="590">ลงนามรับรองผล</tspan><tspan x="590" dy="13">(แนบลายเซ็น)</tspan></text>
+
+        <ellipse cx="830" cy="750" rx="100" ry="29" class="uc-oval"/>
+        <text x="830" y="745" text-anchor="middle" class="uc-label"><tspan x="830">ยืนยันและส่ง</tspan><tspan x="830" dy="13">ผลการประเมิน</tspan></text>
+
+        <!-- include relationship -->
+        <path d="M730,750 L690,750" class="uc-include" marker-end="url(#aL)"/>
+        <text x="710" y="736" text-anchor="middle" class="uc-include-label">«include»</text>
+      </svg>
+    </div>
+  </section>
+
+  <section class="card wide">
+    <div class="card-head">
+      <span class="num-badge">2.4</span>
+      <div>
+        <h2>Class Diagram โครงสร้างระบบทั้งหมด</h2>
+        <p>โครงสร้างคลาสหลักของระบบ ความสัมพันธ์แบบสืบทอด (Inheritance) ระหว่างผู้ใช้งานสามบทบาท และความสัมพันธ์แบบประกอบ (Composition) ระหว่างหัวข้อ ตัวชี้วัด การมอบหมาย และคะแนน</p>
+      </div>
+    </div>
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1180 820" role="img" aria-label="Class Diagram ของระบบประเมินบุคลากร แสดงคลาส User เป็นคลาสฐานแบบนามธรรมที่ถูกสืบทอดโดย HRStaff, Evaluatee และ Evaluator และความสัมพันธ์กับคลาส EvaluationTopic, Indicator, EvaluationDetail, Assignment และ Score">
+        <defs>
+          <marker id="aC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <!-- ===================== INHERITANCE ===================== -->
+        <path d="M220,250 L220,215 L935,215 L935,250" class="cls-rel"/>
+        <path d="M575,250 L575,190" class="cls-rel"/>
+        <polygon points="575,164 566,188 584,188" class="cls-triangle"/>
+
+        <!-- ===================== CLASS: User ===================== -->
+        <g>
+          <rect x="445" y="30" width="260" height="134" class="cls-box"/>
+          <rect x="445" y="30" width="260" height="26" class="cls-header"/>
+          <text x="575" y="48" text-anchor="middle" class="cls-name abstract">User «abstract»</text>
+          <line x1="445" y1="56" x2="705" y2="56" class="cls-divider"/>
+          <text x="455" y="70" class="cls-text">- userId : int</text>
+          <text x="455" y="84" class="cls-text">- username : string</text>
+          <text x="455" y="98" class="cls-text">- password : string</text>
+          <text x="455" y="112" class="cls-text">- fullName : string</text>
+          <line x1="445" y1="122" x2="705" y2="122" class="cls-divider"/>
+          <text x="455" y="136" class="cls-text">+ login() : boolean</text>
+          <text x="455" y="150" class="cls-text">+ changePassword() : void</text>
+        </g>
+
+        <!-- ===================== CLASS: HRStaff ===================== -->
+        <g>
+          <rect x="110" y="250" width="220" height="84" class="cls-box"/>
+          <rect x="110" y="250" width="220" height="26" class="cls-header"/>
+          <text x="220" y="268" text-anchor="middle" class="cls-name">HRStaff</text>
+          <line x1="110" y1="276" x2="330" y2="276" class="cls-divider"/>
+          <text x="120" y="290" class="cls-text">+ createTopic()</text>
+          <text x="120" y="304" class="cls-text">+ assignEvaluator()</text>
+          <text x="120" y="318" class="cls-text">+ resetPassword()</text>
+        </g>
+
+        <!-- ===================== CLASS: Evaluatee ===================== -->
+        <g>
+          <rect x="455" y="250" width="240" height="104" class="cls-box"/>
+          <rect x="455" y="250" width="240" height="26" class="cls-header"/>
+          <text x="575" y="268" text-anchor="middle" class="cls-name">Evaluatee</text>
+          <line x1="455" y1="276" x2="695" y2="276" class="cls-divider"/>
+          <text x="465" y="290" class="cls-text">- department : string</text>
+          <line x1="455" y1="300" x2="695" y2="300" class="cls-divider"/>
+          <text x="465" y="314" class="cls-text">+ submitDetail()</text>
+          <text x="465" y="328" class="cls-text">+ selfScore()</text>
+          <text x="465" y="342" class="cls-text">+ exportReport()</text>
+        </g>
+
+        <!-- ===================== CLASS: Evaluator ===================== -->
+        <g>
+          <rect x="815" y="250" width="240" height="104" class="cls-box"/>
+          <rect x="815" y="250" width="240" height="26" class="cls-header"/>
+          <text x="935" y="268" text-anchor="middle" class="cls-name">Evaluator</text>
+          <line x1="815" y1="276" x2="1055" y2="276" class="cls-divider"/>
+          <text x="825" y="290" class="cls-text">- position : string</text>
+          <line x1="815" y1="300" x2="1055" y2="300" class="cls-divider"/>
+          <text x="825" y="314" class="cls-text">+ scoreIndicator()</text>
+          <text x="825" y="328" class="cls-text">+ saveDraft()</text>
+          <text x="825" y="342" class="cls-text">+ signAndSubmit()</text>
+        </g>
+
+        <!-- ===================== CLASS: EvaluationTopic ===================== -->
+        <g>
+          <rect x="60" y="470" width="230" height="118" class="cls-box"/>
+          <rect x="60" y="470" width="230" height="26" class="cls-header"/>
+          <text x="175" y="488" text-anchor="middle" class="cls-name">EvaluationTopic</text>
+          <line x1="60" y1="496" x2="290" y2="496" class="cls-divider"/>
+          <text x="70" y="510" class="cls-text">- topicId : int</text>
+          <text x="70" y="524" class="cls-text">- name : string</text>
+          <text x="70" y="538" class="cls-text">- startDate : date</text>
+          <text x="70" y="552" class="cls-text">- endDate : date</text>
+          <line x1="60" y1="562" x2="290" y2="562" class="cls-divider"/>
+          <text x="70" y="576" class="cls-text">+ addIndicator()</text>
+        </g>
+
+        <!-- ===================== CLASS: Assignment ===================== -->
+        <g>
+          <rect x="870" y="470" width="250" height="146" class="cls-box"/>
+          <rect x="870" y="470" width="250" height="26" class="cls-header"/>
+          <text x="995" y="488" text-anchor="middle" class="cls-name">Assignment</text>
+          <line x1="870" y1="496" x2="1120" y2="496" class="cls-divider"/>
+          <text x="880" y="510" class="cls-text">- assignmentId : int</text>
+          <text x="880" y="524" class="cls-text">- role : string</text>
+          <text x="880" y="538" class="cls-text">- status : enum</text>
+          <text x="880" y="552" class="cls-text">- overallComment : string</text>
+          <text x="880" y="566" class="cls-text">- signature : string</text>
+          <line x1="870" y1="576" x2="1120" y2="576" class="cls-divider"/>
+          <text x="880" y="590" class="cls-text">+ saveDraft()</text>
+          <text x="880" y="604" class="cls-text">+ confirm()</text>
+        </g>
+
+        <!-- ===================== CLASS: Indicator ===================== -->
+        <g>
+          <rect x="330" y="680" width="230" height="92" class="cls-box"/>
+          <rect x="330" y="680" width="230" height="26" class="cls-header"/>
+          <text x="445" y="698" text-anchor="middle" class="cls-name">Indicator</text>
+          <line x1="330" y1="706" x2="560" y2="706" class="cls-divider"/>
+          <text x="340" y="720" class="cls-text">- indicatorId : int</text>
+          <text x="340" y="734" class="cls-text">- name : string</text>
+          <text x="340" y="748" class="cls-text">- weight : decimal</text>
+          <text x="340" y="762" class="cls-text">- scoreType : enum</text>
+        </g>
+
+        <!-- ===================== CLASS: EvaluationDetail ===================== -->
+        <g>
+          <rect x="600" y="680" width="240" height="92" class="cls-box"/>
+          <rect x="600" y="680" width="240" height="26" class="cls-header"/>
+          <text x="720" y="698" text-anchor="middle" class="cls-name">EvaluationDetail</text>
+          <line x1="600" y1="706" x2="840" y2="706" class="cls-divider"/>
+          <text x="610" y="720" class="cls-text">- detailId : int</text>
+          <text x="610" y="734" class="cls-text">- description : string</text>
+          <text x="610" y="748" class="cls-text">- evidenceFile : string</text>
+          <text x="610" y="762" class="cls-text">- selfScore : decimal</text>
+        </g>
+
+        <!-- ===================== CLASS: Score ===================== -->
+        <g>
+          <rect x="900" y="680" width="210" height="78" class="cls-box"/>
+          <rect x="900" y="680" width="210" height="26" class="cls-header"/>
+          <text x="1005" y="698" text-anchor="middle" class="cls-name">Score</text>
+          <line x1="900" y1="706" x2="1110" y2="706" class="cls-divider"/>
+          <text x="910" y="720" class="cls-text">- scoreId : int</text>
+          <text x="910" y="734" class="cls-text">- scoreValue : decimal</text>
+          <text x="910" y="748" class="cls-text">- comment : string</text>
+        </g>
+
+        <!-- ===================== ASSOCIATIONS ===================== -->
+        <!-- HRStaff -> EvaluationTopic -->
+        <path d="M220,334 L175,470" class="cls-rel"/>
+        <text x="185" y="390" class="cls-rel-label">สร้าง</text>
+        <text x="223" y="348" class="cls-mult">1</text>
+        <text x="178" y="462" class="cls-mult">0..*</text>
+
+        <!-- EvaluationTopic *-- Indicator -->
+        <polygon points="175,588 184,594 175,600 166,594" class="cls-diamond"/>
+        <path d="M184,594 L445,680" class="cls-rel"/>
+        <text x="230" y="630" class="cls-rel-label">ประกอบด้วย</text>
+        <text x="448" y="672" class="cls-mult">1..*</text>
+
+        <!-- HRStaff -> Assignment -->
+        <path d="M220,334 L995,470" class="cls-rel"/>
+        <text x="520" y="392" class="cls-rel-label">มอบหมาย</text>
+
+        <!-- Evaluator -> Assignment -->
+        <path d="M935,354 L995,470" class="cls-rel"/>
+        <text x="938" y="400" class="cls-rel-label">ได้รับมอบหมาย</text>
+        <text x="998" y="462" class="cls-mult">0..*</text>
+
+        <!-- Evaluatee -> Assignment -->
+        <path d="M575,354 L870,543" class="cls-rel"/>
+        <text x="650" y="440" class="cls-rel-label">ถูกประเมินโดย</text>
+
+        <!-- Assignment *-- Score -->
+        <polygon points="995,616 1001,623 995,630 989,623" class="cls-diamond"/>
+        <path d="M1001,623 L970,680" class="cls-rel"/>
+        <text x="1008" y="655" class="cls-rel-label">ประกอบด้วย</text>
+        <text x="973" y="672" class="cls-mult">0..*</text>
+
+        <!-- Indicator -> Score -->
+        <path d="M445,680 L445,645 L1040,645 L1040,680" class="cls-rel" marker-end="url(#aC)"/>
+        <text x="700" y="638" text-anchor="middle" class="cls-rel-label">อ้างอิงถึง</text>
+
+        <!-- Evaluatee -> EvaluationDetail -->
+        <path d="M575,354 L720,680" class="cls-rel"/>
+        <text x="610" y="520" class="cls-rel-label">กรอกข้อมูล</text>
+        <text x="723" y="672" class="cls-mult">0..*</text>
+
+        <!-- Indicator -> EvaluationDetail -->
+        <path d="M445,772 L445,796 L720,796 L720,772" class="cls-rel"/>
+        <text x="520" y="791" class="cls-rel-label">ถูกประเมินใน</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 4: RESTful API ===================== -->
+  <section class="card wide">
+    <div class="card-head">
+      <span class="num-badge">4.1–4.2</span>
+      <div>
+        <h2>การออกแบบ RESTful API สำหรับใช้งานในระบบ</h2>
+        <p>ออกแบบ Endpoint ตามหลัก RESTful แยกตาม Resource ใช้ HTTP Method ให้ตรงความหมาย (GET อ่าน, POST สร้าง, PUT แก้ไข, DELETE ลบ) และตั้งชื่อ Endpoint เป็นคำนามพหูพจน์ที่สื่อความหมายและสอดคล้องกันทั้งระบบ</p>
+      </div>
+    </div>
+    <div style="padding:22px;">
+
+      <div class="api-group">
+        <h4>Auth — การเข้าสู่ระบบ</h4>
+        <table class="api-table">
+          <thead><tr><th style="width:90px;">Method</th><th style="width:230px;">Endpoint</th><th>คำอธิบาย</th><th style="width:150px;">ใช้โดยบทบาท</th></tr></thead>
+          <tbody>
+            <tr><td><span class="method post">POST</span></td><td class="endpoint">/api/auth/login</td><td>เข้าสู่ระบบด้วย username/password รับ JWT token</td><td class="role-note">ทุกบทบาท</td></tr>
+            <tr><td><span class="method put">PUT</span></td><td class="endpoint">/api/auth/password</td><td>เปลี่ยนรหัสผ่านของตนเอง (บังคับเมื่อเข้าใช้งานครั้งแรก)</td><td class="role-note">ทุกบทบาท</td></tr>
+            <tr><td><span class="method post">POST</span></td><td class="endpoint">/api/auth/logout</td><td>ออกจากระบบ (invalidate token)</td><td class="role-note">ทุกบทบาท</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="api-group">
+        <h4>Users — ผู้ใช้งาน</h4>
+        <table class="api-table">
+          <tbody>
+            <tr><td style="width:90px;"><span class="method get">GET</span></td><td class="endpoint" style="width:230px;">/api/users?role=</td><td>รายชื่อผู้ใช้งานทั้งหมด กรองตามบทบาทได้</td><td class="role-note" style="width:150px;">ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method get">GET</span></td><td class="endpoint">/api/users/{id}</td><td>ข้อมูลผู้ใช้งานรายคน</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method post">POST</span></td><td class="endpoint">/api/users</td><td>เพิ่มผู้รับการประเมิน/กรรมการผู้ประเมินใหม่</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method put">PUT</span></td><td class="endpoint">/api/users/{id}</td><td>แก้ไขข้อมูลผู้ใช้งาน</td><td class="role-note">ฝ่ายบุคลากร / เจ้าของบัญชี</td></tr>
+            <tr><td><span class="method delete">DELETE</span></td><td class="endpoint">/api/users/{id}</td><td>ลบผู้ใช้งาน</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method put">PUT</span></td><td class="endpoint">/api/users/{id}/password-reset</td><td>คืนค่ารหัสผ่าน (Reset Password)</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="api-group">
+        <h4>Evaluation Topics — หัวข้อการประเมิน</h4>
+        <table class="api-table">
+          <tbody>
+            <tr><td style="width:90px;"><span class="method get">GET</span></td><td class="endpoint" style="width:230px;">/api/topics</td><td>รายการหัวข้อการประเมินทั้งหมด</td><td class="role-note" style="width:150px;">ทุกบทบาท</td></tr>
+            <tr><td><span class="method get">GET</span></td><td class="endpoint">/api/topics/{id}</td><td>รายละเอียดหัวข้อการประเมิน</td><td class="role-note">ทุกบทบาท</td></tr>
+            <tr><td><span class="method post">POST</span></td><td class="endpoint">/api/topics</td><td>สร้างหัวข้อการประเมินใหม่ พร้อมช่วงเวลาเปิด–ปิด</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method put">PUT</span></td><td class="endpoint">/api/topics/{id}</td><td>แก้ไขหัวข้อ/ช่วงเวลาเปิด–ปิดการประเมิน</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method delete">DELETE</span></td><td class="endpoint">/api/topics/{id}</td><td>ลบหัวข้อการประเมิน</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="api-group">
+        <h4>Indicators — ตัวชี้วัด</h4>
+        <table class="api-table">
+          <tbody>
+            <tr><td style="width:90px;"><span class="method get">GET</span></td><td class="endpoint" style="width:230px;">/api/topics/{topicId}/indicators</td><td>รายการตัวชี้วัดภายใต้หัวข้อนั้น</td><td class="role-note" style="width:150px;">ทุกบทบาท</td></tr>
+            <tr><td><span class="method post">POST</span></td><td class="endpoint">/api/topics/{topicId}/indicators</td><td>เพิ่มตัวชี้วัดใหม่ (ชื่อ, น้ำหนัก, รูปแบบ, หลักฐาน)</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method put">PUT</span></td><td class="endpoint">/api/indicators/{id}</td><td>แก้ไขตัวชี้วัด</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method delete">DELETE</span></td><td class="endpoint">/api/indicators/{id}</td><td>ลบตัวชี้วัด</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="api-group">
+        <h4>Assignments — การมอบหมายกรรมการ</h4>
+        <table class="api-table">
+          <tbody>
+            <tr><td style="width:90px;"><span class="method get">GET</span></td><td class="endpoint" style="width:230px;">/api/assignments?evaluatorId=&evaluateeId=</td><td>รายการมอบหมาย กรองตามกรรมการ/ผู้รับการประเมิน</td><td class="role-note" style="width:150px;">ฝ่ายบุคลากร / กรรมการ</td></tr>
+            <tr><td><span class="method post">POST</span></td><td class="endpoint">/api/assignments</td><td>มอบหมายกรรมการให้ประเมินผู้รับการประเมิน พร้อมบทบาท</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method put">PUT</span></td><td class="endpoint">/api/assignments/{id}</td><td>แก้ไขบทบาทกรรมการ (ประธาน/กรรมการร่วม)</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method delete">DELETE</span></td><td class="endpoint">/api/assignments/{id}</td><td>ยกเลิกการมอบหมาย</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="api-group">
+        <h4>Evaluation Details & Evidence — รายละเอียดและหลักฐาน</h4>
+        <table class="api-table">
+          <tbody>
+            <tr><td style="width:90px;"><span class="method get">GET</span></td><td class="endpoint" style="width:230px;">/api/indicators/{id}/details</td><td>รายละเอียดประกอบการประเมินของตัวชี้วัดนี้</td><td class="role-note" style="width:150px;">เจ้าของข้อมูล / กรรมการที่เกี่ยวข้อง</td></tr>
+            <tr><td><span class="method post">POST</span></td><td class="endpoint">/api/indicators/{id}/details</td><td>เพิ่มรายละเอียดประกอบการประเมิน (เพิ่มได้หลายรายการ)</td><td class="role-note">ผู้รับการประเมิน</td></tr>
+            <tr><td><span class="method put">PUT</span></td><td class="endpoint">/api/details/{id}</td><td>แก้ไขรายละเอียดที่เคยกรอก</td><td class="role-note">ผู้รับการประเมิน (เจ้าของ)</td></tr>
+            <tr><td><span class="method delete">DELETE</span></td><td class="endpoint">/api/details/{id}</td><td>ลบรายละเอียด</td><td class="role-note">ผู้รับการประเมิน (เจ้าของ)</td></tr>
+            <tr><td><span class="method post">POST</span></td><td class="endpoint">/api/details/{id}/evidence</td><td>อัปโหลดไฟล์หลักฐาน PDF/รูปภาพ หรือแนบ URL (multipart/form-data)</td><td class="role-note">ผู้รับการประเมิน</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="api-group">
+        <h4>Self-Score & Scores — การให้คะแนน</h4>
+        <table class="api-table">
+          <tbody>
+            <tr><td style="width:90px;"><span class="method put">PUT</span></td><td class="endpoint" style="width:230px;">/api/indicators/{id}/self-score</td><td>กรอก/แก้ไขคะแนนประเมินตนเอง</td><td class="role-note" style="width:150px;">ผู้รับการประเมิน</td></tr>
+            <tr><td><span class="method get">GET</span></td><td class="endpoint">/api/assignments/{id}/scores</td><td>ดูคะแนนทั้งหมดของการมอบหมายนี้ (รายตัวชี้วัด)</td><td class="role-note">กรรมการ / ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method put">PUT</span></td><td class="endpoint">/api/assignments/{id}/scores/{indicatorId}</td><td>ให้คะแนน/แก้ไขคะแนนร่างตามตัวชี้วัด</td><td class="role-note">กรรมการ</td></tr>
+            <tr><td><span class="method put">PUT</span></td><td class="endpoint">/api/assignments/{id}/comment</td><td>บันทึกความเห็นสรุปภาพรวม (ร่าง)</td><td class="role-note">กรรมการ</td></tr>
+            <tr><td><span class="method post">POST</span></td><td class="endpoint">/api/assignments/{id}/sign</td><td>ลงนาม (แนบลายเซ็น) และยืนยันส่งผลการประเมิน</td><td class="role-note">กรรมการ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="api-group">
+        <h4>Reports — รายงานผล</h4>
+        <table class="api-table">
+          <tbody>
+            <tr><td style="width:90px;"><span class="method get">GET</span></td><td class="endpoint" style="width:230px;">/api/evaluatees/{id}/report</td><td>รายงานผลการประเมินรายบุคคล</td><td class="role-note" style="width:150px;">เจ้าของ / ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method get">GET</span></td><td class="endpoint">/api/evaluatees/{id}/report/pdf</td><td>Export รายงานผลเป็นไฟล์ PDF</td><td class="role-note">เจ้าของ / ฝ่ายบุคลากร</td></tr>
+            <tr><td><span class="method get">GET</span></td><td class="endpoint">/api/reports/summary</td><td>สรุปภาพรวมสำหรับ Dashboard (ความคืบหน้า, สถานะ)</td><td class="role-note">ฝ่ายบุคลากร</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 4.3: RESPONSE BODY ===================== -->
+  <section class="card wide">
+    <div class="card-head">
+      <span class="num-badge">4.3</span>
+      <div>
+        <h2>ตัวอย่างรูปแบบ Response Body</h2>
+        <p>ทุก Response ใช้โครงสร้าง JSON ที่สอดคล้องกัน (status, message, data) และเลือกใช้ HTTP Status Code ให้ตรงกับผลลัพธ์การทำงานจริง</p>
+      </div>
+    </div>
+    <div style="padding:22px;">
+      <div class="code-grid">
+
+        <div class="code-card">
+          <div class="code-head">
+            <span class="req"><span class="method get" style="min-width:auto;">GET</span> /api/topics</span>
+            <span class="status-chip s2">200 OK</span>
+          </div>
+          <pre>{
+  "status": "success",
+  "message": "ดึงข้อมูลหัวข้อการประเมินสำเร็จ",
+  "data": [
+    {
+      "id": 1,
+      "name": "ด้านการสอนและการจัดการเรียนรู้",
+      "startDate": "2026-10-01",
+      "endDate": "2026-10-31",
+      "indicatorCount": 6
+    }
+  ]
+}</pre>
+        </div>
+
+        <div class="code-card">
+          <div class="code-head">
+            <span class="req"><span class="method post" style="min-width:auto;">POST</span> /api/topics/1/indicators</span>
+            <span class="status-chip s2">201 Created</span>
+          </div>
+          <pre>{
+  "status": "success",
+  "message": "เพิ่มตัวชี้วัดสำเร็จ",
+  "data": {
+    "id": 24,
+    "topicId": 1,
+    "name": "การใช้สื่อและเทคโนโลยี",
+    "weight": 10,
+    "scoreType": "scale_1_4",
+    "evidenceTypes": ["image"],
+    "createdAt": "2026-10-05T09:12:00Z"
+  }
+}</pre>
+        </div>
+
+        <div class="code-card">
+          <div class="code-head">
+            <span class="req"><span class="method put" style="min-width:auto;">PUT</span> /api/assignments/5/scores/12</span>
+            <span class="status-chip s2">200 OK</span>
+          </div>
+          <pre>{
+  "status": "success",
+  "message": "บันทึกคะแนนสำเร็จ",
+  "data": {
+    "assignmentId": 5,
+    "indicatorId": 12,
+    "scoreValue": 4,
+    "isDraft": true,
+    "updatedAt": "2026-10-05T09:20:11Z"
+  }
+}</pre>
+        </div>
+
+        <div class="code-card">
+          <div class="code-head">
+            <span class="req"><span class="method delete" style="min-width:auto;">DELETE</span> /api/indicators/24</span>
+            <span class="status-chip s2">204 No Content</span>
+          </div>
+          <pre>(ไม่มี Response Body — ลบสำเร็จ
+ฝั่ง Client ลบรายการออกจากหน้าจอทันที
+โดยอ้างอิงจาก HTTP Status Code เพียงอย่างเดียว)</pre>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 4.4: ERROR HANDLING ===================== -->
+  <section class="card wide">
+    <div class="card-head">
+      <span class="num-badge">4.4</span>
+      <div>
+        <h2>การออกแบบรองรับกรณีเกิด Error</h2>
+        <p>ทุก Error ใช้โครงสร้างเดียวกัน (status, code, message) เพื่อให้ฝั่ง Front-end จัดการและแสดงผลได้สอดคล้องกันทั้งระบบ</p>
+      </div>
+    </div>
+    <div style="padding:22px;">
+
+      <div style="overflow-x:auto;margin-bottom:20px;">
+        <table class="api-table">
+          <thead><tr><th style="width:90px;">Code</th><th style="width:200px;">ความหมาย</th><th>กรณีที่ใช้ในระบบ</th></tr></thead>
+          <tbody>
+            <tr><td><span class="status-chip s2" style="background:var(--status-good-bg,#dceee2);">200 / 201</span></td><td>สำเร็จ / สร้างข้อมูลสำเร็จ</td><td>คำขอทำงานถูกต้องตามปกติ</td></tr>
+            <tr><td><span class="status-chip s4">400</span></td><td>Bad Request</td><td>ข้อมูลที่ส่งมาไม่ถูกต้องหรือไม่ครบ เช่น น้ำหนักคะแนนเกิน 100</td></tr>
+            <tr><td><span class="status-chip s4">401</span></td><td>Unauthorized</td><td>ไม่ได้แนบ Token หรือ Token หมดอายุ</td></tr>
+            <tr><td><span class="status-chip s4">403</span></td><td>Forbidden</td><td>Token ถูกต้องแต่บทบาทไม่มีสิทธิ์เข้าถึง Endpoint นี้</td></tr>
+            <tr><td><span class="status-chip s4">404</span></td><td>Not Found</td><td>ไม่พบข้อมูลที่ร้องขอ เช่น indicator id ไม่มีอยู่จริง</td></tr>
+            <tr><td><span class="status-chip s4">409</span></td><td>Conflict</td><td>ข้อมูลขัดแย้งกับสถานะปัจจุบัน เช่น username ซ้ำ หรือแก้ไขผลที่ยืนยันแล้ว</td></tr>
+            <tr><td><span class="status-chip s4">500</span></td><td>Internal Server Error</td><td>ข้อผิดพลาดที่ไม่คาดคิดฝั่งเซิร์ฟเวอร์</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-grid">
+        <div class="code-card">
+          <div class="code-head">
+            <span class="req">Unauthorized</span>
+            <span class="status-chip s4">401</span>
+          </div>
+          <pre>{
+  "status": "error",
+  "code": 401,
+  "message": "ไม่พบ Token หรือ Token หมดอายุ กรุณาเข้าสู่ระบบใหม่"
+}</pre>
+        </div>
+
+        <div class="code-card">
+          <div class="code-head">
+            <span class="req">Not Found</span>
+            <span class="status-chip s4">404</span>
+          </div>
+          <pre>{
+  "status": "error",
+  "code": 404,
+  "message": "ไม่พบข้อมูลตัวชี้วัดที่ต้องการ"
+}</pre>
+        </div>
+
+        <div class="code-card">
+          <div class="code-head">
+            <span class="req">Forbidden</span>
+            <span class="status-chip s4">403</span>
+          </div>
+          <pre>{
+  "status": "error",
+  "code": 403,
+  "message": "คุณไม่มีสิทธิ์เข้าถึงข้อมูลนี้"
+}</pre>
+        </div>
+
+        <div class="code-card">
+          <div class="code-head">
+            <span class="req">Bad Request (Validation)</span>
+            <span class="status-chip s4">400</span>
+          </div>
+          <pre>{
+  "status": "error",
+  "code": 400,
+  "message": "ข้อมูลไม่ถูกต้อง",
+  "errors": [
+    { "field": "weight",
+      "message": "น้ำหนักคะแนนต้องอยู่ระหว่าง 1-100" }
+  ]
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 4.5: SECURITY ===================== -->
+  <section class="card wide">
+    <div class="card-head">
+      <span class="num-badge">4.5</span>
+      <div>
+        <h2>แนวทางด้านความปลอดภัยของ API</h2>
+        <p>ยืนยันตัวตนด้วย JWT Token และตรวจสอบสิทธิ์การเข้าถึงตามบทบาทผู้ใช้งาน (Role-Based Access Control) ในทุก Endpoint ที่ไม่ใช่ Public</p>
+      </div>
+    </div>
+    <div style="padding:22px;display:flex;flex-direction:column;gap:22px;">
+
+      <div>
+        <h4 style="margin:0 0 10px;font-size:13.5px;font-weight:700;">การแนบ Token ในทุกคำขอ</h4>
+        <div class="code-card">
+          <div class="code-head"><span class="req">Request Header</span></div>
+          <pre>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</pre>
+        </div>
+      </div>
+
+      <div>
+        <h4 style="margin:0 0 10px;font-size:13.5px;font-weight:700;">สิทธิ์การเข้าถึงตามบทบาท (RBAC)</h4>
+        <div style="overflow-x:auto;">
+          <table class="rbac-table">
+            <thead><tr><th>Resource</th><th>ฝ่ายบุคลากร</th><th>ผู้รับการประเมิน</th><th>กรรมการผู้ประเมิน</th></tr></thead>
+            <tbody>
+              <tr><td>หัวข้อ / ตัวชี้วัด</td><td>CRUD ทั้งหมด</td><td>อ่านอย่างเดียว</td><td>อ่านอย่างเดียว</td></tr>
+              <tr><td>ผู้ใช้งาน</td><td>CRUD ทั้งหมด</td><td>อ่าน/แก้ไขเฉพาะตนเอง</td><td>อ่าน/แก้ไขเฉพาะตนเอง</td></tr>
+              <tr><td>การมอบหมาย</td><td>CRUD ทั้งหมด</td><td>อ่านเฉพาะของตนเอง</td><td>อ่านเฉพาะของตนเอง</td></tr>
+              <tr><td>รายละเอียด/หลักฐาน</td><td>อ่านอย่างเดียว</td><td>CRUD เฉพาะของตนเอง</td><td>อ่านเฉพาะที่เกี่ยวข้อง</td></tr>
+              <tr><td>คะแนนประเมิน</td><td>อ่านอย่างเดียว</td><td>อ่าน/แก้ไขคะแนนตนเอง</td><td>CRUD เฉพาะที่ได้รับมอบหมาย</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <h4 style="margin:0 0 10px;font-size:13.5px;font-weight:700;">มาตรการความปลอดภัยอื่น ๆ</h4>
+        <ul class="sec-list">
+          <li>
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="9" width="11" height="8" rx="1.5"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9"/></svg>
+            เข้ารหัสรหัสผ่านด้วย bcrypt ก่อนบันทึกลงฐานข้อมูล ไม่เก็บรหัสผ่านแบบ Plain Text
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
+            กำหนดอายุ JWT Token (เช่น 2 ชั่วโมง) หมดอายุแล้วต้องเข้าสู่ระบบใหม่
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 3 5v5c0 4.2 3 6.8 7 8 4-1.2 7-3.8 7-8V5l-7-3Z"/><path d="M7 10l2 2 4-4"/></svg>
+            Middleware ตรวจสอบลายเซ็น (Signature) และอายุของ Token ทุกคำขอ ก่อนตรวจสอบสิทธิ์ตามบทบาท (RBAC)
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h5.5L15 6v11.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z"/><path d="M11 2.5V6h4"/></svg>
+            ตรวจสอบความถูกต้องของข้อมูลนำเข้าด้วย express-validator ทุก Endpoint ที่รับข้อมูล (ป้องกัน Injection)
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13V4M6.5 7.5L10 4l3.5 3.5"/><path d="M4 14.5V16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1.5"/></svg>
+            จำกัดชนิดและขนาดไฟล์ที่อัปโหลดเป็นหลักฐาน (PDF/JPG/PNG สูงสุด 5 MB ต่อไฟล์)
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="legend">
+    <h3>สัญลักษณ์ที่ใช้ในผังงาน</h3>
+    <div class="legend-item">
+      <svg width="44" height="22" viewBox="0 0 44 22"><rect x="2" y="2" width="40" height="18" rx="9" class="shape terminator"/></svg>
+      เริ่มต้น / สิ้นสุด (Terminator)
+    </div>
+    <div class="legend-item">
+      <svg width="44" height="22" viewBox="0 0 44 22"><rect x="2" y="2" width="40" height="18" rx="3" class="shape process"/></svg>
+      ขั้นตอนการทำงาน (Process)
+    </div>
+    <div class="legend-item">
+      <svg width="44" height="22" viewBox="0 0 44 22"><polygon points="22,2 42,11 22,20 2,11" class="shape decision"/></svg>
+      จุดตัดสินใจ (Decision)
+    </div>
+    <div class="legend-item">
+      <svg width="44" height="22" viewBox="0 0 44 22"><polygon points="8,2 42,2 36,20 2,20" class="shape io"/></svg>
+      นำเข้า / แสดงผลข้อมูล (I/O)
+    </div>
+    <div class="legend-item">
+      <svg width="44" height="14" viewBox="0 0 44 14"><defs><marker id="al" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs><path d="M2,7 L36,7" class="flow-line" marker-end="url(#al)"/></svg>
+      ทิศทางการทำงาน
+    </div>
+    <div class="legend-item">
+      <svg width="24" height="26" viewBox="0 0 24 26"><g class="uc-actor"><circle cx="12" cy="7" r="5"/><line x1="12" y1="12" x2="12" y2="20"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="12" y1="20" x2="6" y2="25"/><line x1="12" y1="20" x2="18" y2="25"/></g></svg>
+      ผู้กระทำ (Actor)
+    </div>
+    <div class="legend-item">
+      <svg width="46" height="22" viewBox="0 0 46 22"><ellipse cx="23" cy="11" rx="21" ry="9" class="uc-oval"/></svg>
+      ยูสเคส (Use Case)
+    </div>
+    <div class="legend-item">
+      <svg width="44" height="10" viewBox="0 0 44 10"><path d="M2,5 L42,5" class="uc-line"/></svg>
+      ความสัมพันธ์ (Association)
+    </div>
+    <div class="legend-item">
+      <svg width="54" height="14" viewBox="0 0 54 14"><defs><marker id="aLeg" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs><path d="M2,7 L48,7" class="uc-include" marker-end="url(#aLeg)"/></svg>
+      «include»
+    </div>
+    <div class="legend-item">
+      <svg width="34" height="26" viewBox="0 0 34 26"><rect x="2" y="2" width="30" height="22" class="cls-box"/><rect x="2" y="2" width="30" height="9" class="cls-header"/></svg>
+      คลาส (Class)
+    </div>
+    <div class="legend-item">
+      <svg width="30" height="20" viewBox="0 0 30 20"><path d="M15,18 L15,4" class="cls-rel"/><polygon points="15,2 9,13 21,13" class="cls-triangle"/></svg>
+      สืบทอด (Inheritance)
+    </div>
+    <div class="legend-item">
+      <svg width="34" height="16" viewBox="0 0 34 16"><polygon points="4,8 10,3 16,8 10,13" class="cls-diamond"/><path d="M16,8 L32,8" class="cls-rel"/></svg>
+      ประกอบด้วย (Composition)
+    </div>
+  </div>
+
+  <footer class="page">
+    อ้างอิงจากเกณฑ์การแข่งขันทักษะ สาขาวิชาเทคโนโลยีสารสนเทศ และสาขาวิชาคอมพิวเตอร์โปรแกรมเมอร์ — ทักษะการพัฒนาระบบประเมินบุคลากรด้วยระบบเทคโนโลยีสารสนเทศสมัยใหม่ ระดับ ปวช. ส่วนที่ 1 การออกแบบผังงาน (ข้อ 1.1–1.5) · ส่วนที่ 2 การออกแบบฐานข้อมูล (ข้อ 2.4) · ส่วนที่ 4 การออกแบบ RESTful API (ข้อ 4.1–4.5)
+  </footer>
+
+</div>

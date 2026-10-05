@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>หน้าจอเข้าสู่ระบบ</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --ink:#1b2430;
+    --ink-soft:#6b7280;
+    --bg:#f5f3ee;
+    --surface:#ffffff;
+    --border:#e3ddd0;
+    --panel-a:#13203b;
+    --panel-b:#1f4e8c;
+    --accent-warm:#b5792a;
+    --warm-soft:#f7ecd9;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Sarabun','Noto Sans Thai',sans-serif;}
+  a{color:var(--panel-b);}
+  a:hover{color:var(--panel-a);}
+  input::placeholder{color:#a8a296;}
+  input:focus{outline:2px solid var(--panel-b);outline-offset:1px;}
+  button:focus-visible{outline:2px solid var(--panel-b);outline-offset:2px;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-wrap:wrap;background:var(--bg);color:var(--ink);">
+
+  <!-- ===================== LEFT: BRAND PANEL ===================== -->
+  <div style="flex:1 1 380px;min-width:300px;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--panel-a) 0%,var(--panel-b) 120%);color:#ffffff;padding:56px 48px;display:flex;flex-direction:column;justify-content:space-between;">
+
+    <!-- decorative dot grid -->
+    <div style="position:absolute;inset:0;opacity:0.5;background-image:radial-gradient(rgba(255,255,255,0.14) 1px, transparent 1px);background-size:24px 24px;pointer-events:none;"></div>
+    <!-- decorative rings -->
+    <div style="position:absolute;right:-120px;bottom:-120px;width:360px;height:360px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.14);pointer-events:none;"></div>
+    <div style="position:absolute;right:-60px;bottom:-60px;width:220px;height:220px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.18);pointer-events:none;"></div>
+
+    <div style="position:relative;display:flex;flex-direction:column;gap:28px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="flex:none;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;">
+          <svg viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 3 5v5c0 4.2 3 6.8 7 8 4-1.2 7-3.8 7-8V5l-7-3Z"/><path d="M7 10l2 2 4-4"/></svg>
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:700;line-height:1.2;">ระบบประเมินบุคลากร</div>
+          <div style="font-size:11.5px;letter-spacing:.04em;color:rgba(255,255,255,0.65);">PERSONNEL EVALUATION SYSTEM</div>
+        </div>
+      </div>
+
+      <div style="max-width:380px;">
+        <h1 style="margin:0 0 12px;font-size:30px;line-height:1.35;font-weight:700;text-wrap:balance;">ประเมินผลการปฏิบัติงาน<br>อย่างเป็นระบบและโปร่งใส</h1>
+        <p style="margin:0;font-size:14.5px;line-height:1.7;color:rgba(255,255,255,0.75);">ศูนย์กลางการบริหารจัดการตัวชี้วัด การประเมินตนเอง และการให้คะแนนโดยกรรมการ ในที่เดียว</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="flex:none;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;">
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16V11M10 16V6M16 16v-8"/></svg>
+          </div>
+          <div style="font-size:13.5px;line-height:1.5;color:rgba(255,255,255,0.85);padding-top:5px;">กำหนดหัวข้อและตัวชี้วัดการประเมินได้อย่างยืดหยุ่น</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="flex:none;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;">
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
+          </div>
+          <div style="font-size:13.5px;line-height:1.5;color:rgba(255,255,255,0.85);padding-top:5px;">ติดตามสถานะการประเมินของทุกบทบาทแบบเรียลไทม์</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <div style="flex:none;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;">
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h5.5L15 6v11.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z"/><path d="M11 2.5V6h4"/><path d="M7 10h6M7 13h6"/></svg>
+          </div>
+          <div style="font-size:13.5px;line-height:1.5;color:rgba(255,255,255,0.85);padding-top:5px;">ออกรายงานผลการประเมินเป็น PDF ได้ทันที</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="position:relative;font-size:12px;color:rgba(255,255,255,0.55);">[ชื่อสถานศึกษา] · ปีการศึกษา 2569</div>
+  </div>
+
+  <!-- ===================== RIGHT: LOGIN FORM ===================== -->
+  <div style="flex:999 1 420px;min-width:0;display:flex;align-items:center;justify-content:center;padding:40px 24px;">
+    <div style="width:100%;max-width:400px;">
+
+      <div style="margin-bottom:32px;">
+        <div style="font-size:13px;font-weight:600;letter-spacing:.03em;color:var(--panel-b);margin-bottom:8px;">เข้าสู่ระบบ</div>
+        <h2 style="margin:0 0 8px;font-size:26px;font-weight:700;color:var(--ink);">ยินดีต้อนรับกลับมา</h2>
+        <p style="margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.6;">สำหรับฝ่ายบุคลากร ผู้รับการประเมิน และกรรมการผู้ประเมิน</p>
+      </div>
+
+      <form onSubmit="{{handleSubmit}}" style="display:flex;flex-direction:column;gap:18px;">
+
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <label for="username-field" style="font-size:13px;font-weight:600;color:var(--ink);">ชื่อผู้ใช้งาน (Username)</label>
+          <div style="position:relative;display:flex;align-items:center;">
+            <span style="position:absolute;left:14px;color:var(--ink-soft);display:flex;">
+              <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6.5" r="3.2"/><path d="M3.5 17c1-3.2 4-4.8 6.5-4.8s5.5 1.6 6.5 4.8"/></svg>
+            </span>
+            <input id="username-field" name="username" type="text" placeholder="กรอกชื่อผู้ใช้งาน" style="width:100%;padding:12px 14px 12px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14.5px;font-family:inherit;background:var(--surface);color:var(--ink);">
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <label for="password-field" style="font-size:13px;font-weight:600;color:var(--ink);">รหัสผ่าน (Password)</label>
+          <div style="position:relative;display:flex;align-items:center;">
+            <span style="position:absolute;left:14px;color:var(--ink-soft);display:flex;">
+              <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="9" width="11" height="8" rx="1.5"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9"/></svg>
+            </span>
+            <input id="password-field" name="password" type="{{passwordType}}" placeholder="กรอกรหัสผ่าน" style="width:100%;padding:12px 44px 12px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14.5px;font-family:inherit;background:var(--surface);color:var(--ink);">
+            <button type="button" onClick="{{togglePassword}}" aria-label="แสดง/ซ่อนรหัสผ่าน" style="position:absolute;right:10px;background:none;border:none;padding:6px;cursor:pointer;color:var(--ink-soft);display:flex;border-radius:6px;">
+              <sc-if value="{{showPassword}}" hint-placeholder-val="{{false}}">
+                <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 10S4.5 4.5 10 4.5 18.5 10 18.5 10 15.5 15.5 10 15.5 1.5 10 1.5 10Z"/><circle cx="10" cy="10" r="2.5"/></svg>
+              </sc-if>
+              <sc-if value="{{hidePassword}}" hint-placeholder-val="{{true}}">
+                <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 10S4.5 4.5 10 4.5c1.6 0 3 .4 4.2 1M18.5 10S15.5 15.5 10 15.5c-1.6 0-3-.4-4.2-1"/><path d="M3 3l14 14"/></svg>
+              </sc-if>
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:-4px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input type="checkbox" id="remember-checkbox" checked="{{remember}}" onChange="{{toggleRemember}}" style="width:16px;height:16px;accent-color:{{accent}};cursor:pointer;">
+            <label for="remember-checkbox" style="font-size:13px;color:var(--ink-soft);cursor:pointer;">จดจำการเข้าสู่ระบบ</label>
+          </div>
+          <a href="#" style="font-size:13px;font-weight:600;text-decoration:none;">ลืมรหัสผ่าน?</a>
+        </div>
+
+        <button type="submit" style="width:100%;padding:13px;border:none;border-radius:10px;background:{{accent}};color:#ffffff;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;margin-top:4px;">เข้าสู่ระบบ</button>
+
+        <div style="display:flex;gap:10px;align-items:flex-start;background:var(--warm-soft);border:1px solid #e9d4ae;border-radius:10px;padding:12px 14px;margin-top:4px;">
+          <span style="flex:none;color:var(--accent-warm);display:flex;margin-top:1px;">
+            <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v4.5M10 6.7v.1"/></svg>
+          </span>
+          <div style="font-size:12.5px;line-height:1.6;color:#6b5330;">เข้าสู่ระบบครั้งแรก? ระบบจะให้ท่านตั้งรหัสผ่านใหม่ทันทีเพื่อความปลอดภัย</div>
+        </div>
+      </form>
+
+      <div style="margin-top:28px;text-align:center;font-size:12.5px;color:var(--ink-soft);">
+        มีปัญหาการเข้าสู่ระบบ? ติดต่อฝ่ายบุคลากร
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1f4e8c","options":["#1f4e8c","#13203b","#0f3d6e","#2c5f9e"]},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { showPassword: false, remember: false };
+    this.togglePassword = this.togglePassword.bind(this);
+    this.toggleRemember = this.toggleRemember.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  togglePassword() {
+    this.setState({ showPassword: !this.state.showPassword });
+  }
+  toggleRemember() {
+    this.setState({ remember: !this.state.remember });
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+  }
+  renderVals() {
+    return {
+      accent: this.props.accent ?? '#1f4e8c',
+      showPassword: this.state.showPassword,
+      hidePassword: !this.state.showPassword,
+      passwordType: this.state.showPassword ? 'text' : 'password',
+      remember: this.state.remember,
+      togglePassword: this.togglePassword,
+      toggleRemember: this.toggleRemember,
+      handleSubmit: this.handleSubmit,
+    };
+  }
+}
+</script>
+</body>
+</html>
